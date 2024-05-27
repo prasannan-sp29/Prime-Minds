@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Status</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .leave-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .leave-table th,
+        .leave-table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .leave-table th {
+            background-color: #f4f4f4;
+        }
+
+        .leave-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .leave-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 0.9em;
+        }
+
+        .status.pending {
+            background-color: #f0ad4e;
+        }
+
+        .status.approved {
+            background-color: #5cb85c;
+        }
+
+        .status.rejected {
+            background-color: #d9534f;
+        }
+
+        .details-link {
+            color: #0275d8;
+            text-decoration: none;
+        }
+
+        .details-link:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+       <button><a href="{% url 'approved_leave' %}">View Approved Leaves</a></button>
+       <button><a href="{% url 'rejected_leave' %}">View Rejected Leaves</a></button>
+
+        <table class="leave-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Day(s)</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in res %}
+                {% if i.status == 'Pending' %}
+                <tr>
+                    <td>{{ i.user }}</td>
+                    <td>{{ i.leavetype }}</td>
+                    <td>{{ i.enddate|date:"Y-m-d" }} - {{ i.startdate|date:"Y-m-d" }}</td>
+                    <td><span class="{% if i.status == 'Approved' %}status approved {% elif i.status == 'Pending' %}status pending{% elif i.status == 'Rejected' %}status rejected{% endif %}">{{ i.status }}</span></td>
+                    <td><a href="{% url 'ViewLeaveDetails' pk=i.id %}" class="details-link">View Details</a></td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

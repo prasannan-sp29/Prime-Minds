@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payslip</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- html2pdf JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            width: 80%;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        h1,
+        h3 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #6c757d;
+            text-align: center;
+        }
+
+        p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            background-color: #f8f9fa;
+        }
+
+        .btn-primary {
+            margin-top: 20px;
+            width: 80%;
+            align-self: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h1>Prime Minds Consulting Pvt Ltd</h1>
+                <h3>Payslip for {{ slip.employee.name }}</h3>
+
+                <!-- <p><strong>Month: </strong>{{ slip.month|upper }}</p> -->
+                <!-- <p><strong>CTC: ₹</strong>{{ slip.employee.salary }}</p> -->
+
+                <table class="table">
+                    <tr>
+                        <th>Name</th>
+                        <td>{{ slip.employee.name }}</td>
+                        <th>Designation</th>
+                        <td>{{ slip.employee.department }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ slip.employee.mail_id }}</td>
+                        <th>Identification No</th>
+                        <td>{{ slip.employee.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Bank Name</th>
+                        <td>{{ slip.employee.bank_name }}</td>
+                        <th>Account Number</th>
+                        <td>{{slip.employee.bank_acc_number}}</td>
+                    </tr>
+                    <tr>
+                        <th>Date From</th>
+                        <td>{{ slip.month }}</td>
+                        <th>Date To</th>
+                        <td>{{end_of_month}}</td>
+                    </tr>
+                    
+
+                </table>
+                
+                <h4 style="color: coral;">Details by Salary Rule Category</h4>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Amount (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basic</td>
+                            <td>{{ slip.basic }}</td>
+                        </tr>
+                        <tr>
+                            <td>House Rent Allowance</td>
+                            <td>{{ slip.hra }}</td>
+                        </tr>
+                        <tr>
+                            <td>Dearness Allowance</td>
+                            <td>{{ slip.da }}</td>
+                        </tr>
+                        <tr>
+                            <td>Travel Allowance</td>
+                            <td>{{ slip.ta }}</td>
+                        </tr>
+                        <tr>
+                            <td>Provident Fund</td>
+                            <td>{{ slip.pf }}</td>
+                        </tr>
+                        <tr>
+                            <td>Professional Tax</td>
+                            <td>{{ slip.professional_tax }}</td>
+                        </tr>
+                        <tr>
+                            <td>Gross Salary</td>
+                            <td>{{ slip.gross }}</td>
+                        </tr>
+                        <tr>
+                            <td>Income Tax</td>
+                            <td>{{ slip.income_tax }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Gross</td>
+                            <td>{{ slip.total_gross }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button id="btn" class="btn btn-primary">Download PDF</button>
+    </div>
+
+    <script>
+        const download_button = document.getElementById('btn');
+        const content = document.querySelector('.card');
+
+        download_button.addEventListener('click', async function () {
+            const filename = `${{ slip.employee.name }}_Payslip.pdf`;
+
+            try {
+                const opt = {
+                    margin: 1,
+                    filename: filename,
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: {
+                        unit: 'in', format: 'letter',
+                        orientation: 'portrait'
+                    }
+                };
+                await html2pdf().set(opt).from(content).save();
+            } catch (error) {
+                console.error('Error:', error.message);
+            }
+        });
+    </script>
+</body>
+
+</html>
