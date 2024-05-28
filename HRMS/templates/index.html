@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 
 <head>
@@ -11,8 +12,11 @@
         }
 
         body {
+            background-image: url("{% static 'images/log.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
             font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
+            /* background-color: #f8f9fa; */
         }
 
         .container {

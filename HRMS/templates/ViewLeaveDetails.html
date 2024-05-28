@@ -1,156 +1,185 @@
-
-
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Details</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'images/download (3).jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-.leave-details-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px;
-}
+        .leave-details-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            opacity: 0.8;
+        }
 
-.leave-details-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
+        .leave-details-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.employee-photo {
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
-}
+        .employee-photo {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-right: 20px;
+        }
 
-.leave-details-header h1 {
-    margin: 0;
-    font-size: 24px;
-}
+        .leave-details-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
 
-.leave-details-content {
-    margin-bottom: 20px;
-}
+        .leave-details-content {
+            margin-bottom: 20px;
+        }
 
-.detail-item {
-    margin-bottom: 10px;
-}
+        .detail-item {
+            margin-bottom: 10px;
+        }
 
-.detail-item strong {
-    display: inline-block;
-    width: 150px;
-    color: #333;
-}
+        .detail-item strong {
+            display: inline-block;
+            width: 150px;
+            color: #333;
+        }
 
-.detail-item span {
-    color: #555;
-}
+        .detail-item span {
+            color: #555;
+        }
 
-.leave-details-footer {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
+        .leave-details-footer {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
 
-.btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-}
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
 
-.btn-decline {
-    background-color: red;
-    color: white;
-}
+        .btn-decline {
+            background-color: red;
+            color: white;
+        }
 
-.btn-approve {
-    background-color: #007bff;
-    color: white;
-}
+        .btn-approve {
+            background-color: #007bff;
+            color: white;
+        }
 
-.btn-reject {
-    background-color: #f0ad4e;
-    color: white;
-}
+        .btn-reject {
+            background-color: #f0ad4e;
+            color: white;
+        }
 
-.created-date {
-    text-align: center;
-    color: #777;
-    font-size: 12px;
-}
+        .created-date {
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+        }
 
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #333;
+        }
+
+        form input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
+
 <body>
     <div class="leave-details-container">
         <div class="leave-details-header">
             <img src="{% if leave.employee.profile_picture %}{{ leave.employee.profile_picture.url }}{% else %}{% static 'images/profile.jpeg' %}{% endif %}"
-        alt="Profile Picture" class="img-fluid" height="100px" width="100px">
-
+                alt="Profile Picture" class="employee-photo">
+            <h1>{{ leave.user }}</h1>
         </div>
         <div class="leave-details-content">
-            <div class="detail-item">
+            <!-- <div class="detail-item">
                 <strong>Employee's Name:</strong>
-                <span>{{leave.user}}</span>
-            </div>
+                <span>{{ leave.user }}</span>
+            </div> -->
             <div class="detail-item">
                 <strong>Start Date:</strong>
-                <span>{{leave.startdate}}</span>
+                <span>{{ leave.startdate }}</span>
             </div>
             <div class="detail-item">
                 <strong>End Date:</strong>
-                <span>{{leave.enddate}}</span>
+                <span>{{ leave.enddate }}</span>
             </div>
             <div class="detail-item">
                 <strong>Duration:</strong>
-                <span>{{leave_duration}}</span>
+                <span>{{ leave_duration }}</span>
             </div>
             <div class="detail-item">
                 <strong>Type:</strong>
-                <span>{{leave.leavetype}}</span>
+                <span>{{ leave.leavetype }}</span>
             </div>
             <div class="detail-item">
                 <strong>Reason:</strong>
-                <span>{{leave.reason}}</span>
+                <span>{{ leave.reason }}</span>
             </div>
             <div class="detail-item">
                 <strong>Status:</strong>
-                <span>{{leave.status}}</span>
+                <span>{{ leave.status }}</span>
             </div>
         </div>
-       
         <form action="" method="POST">
             {% csrf_token %}
             <div class="form-group">
-                <label for="">Status Change</label>
+                <label for="status">Status Change</label>
                 {{ form.status }}
-
             </div>
             <input type="submit" value="Submit">
         </form>
-        <!-- <div class="created-date">
-            <span>Created: Sept. 7, 2021, 4:20 AM</span>
-        </div> -->
     </div>
 </body>
+
 </html>

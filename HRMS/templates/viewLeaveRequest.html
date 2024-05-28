@@ -1,15 +1,17 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Status</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
-        /* styles.css */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background-image: url("{% static 'images/leave.jpg' %}");
+            background-repeat: no-repeat;
+            background-size: cover;
             margin: 0;
             padding: 20px;
         }
@@ -21,6 +23,7 @@
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            opacity: 0.8;
         }
 
         h2 {
@@ -81,13 +84,32 @@
             text-decoration: underline;
         }
 
+        button a {
+            color: white;
+            text-decoration: none;
+        }
+
+        button {
+            background-color: #0275d8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #025aa5;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
-       <button><a href="{% url 'approved_leave' %}">View Approved Leaves</a></button>
-       <button><a href="{% url 'rejected_leave' %}">View Rejected Leaves</a></button>
-
+        <h2>Leave Status</h2>
+        <button><a href="{% url 'approved_leave' %}">View Approved Leaves</a></button>
+        <button><a href="{% url 'rejected_leave' %}">View Rejected Leaves</a></button>
         <table class="leave-table">
             <thead>
                 <tr>
@@ -105,7 +127,12 @@
                     <td>{{ i.user }}</td>
                     <td>{{ i.leavetype }}</td>
                     <td>{{ i.enddate|date:"Y-m-d" }} - {{ i.startdate|date:"Y-m-d" }}</td>
-                    <td><span class="{% if i.status == 'Approved' %}status approved {% elif i.status == 'Pending' %}status pending{% elif i.status == 'Rejected' %}status rejected{% endif %}">{{ i.status }}</span></td>
+                    <td>
+                        <span
+                            class="{% if i.status == 'Approved' %}status approved{% elif i.status == 'Pending' %}status pending{% elif i.status == 'Rejected' %}status rejected{% endif %}">
+                            {{ i.status }}
+                        </span>
+                    </td>
                     <td><a href="{% url 'ViewLeaveDetails' pk=i.id %}" class="details-link">View Details</a></td>
                 </tr>
                 {% endif %}
@@ -114,4 +141,5 @@
         </table>
     </div>
 </body>
+
 </html>

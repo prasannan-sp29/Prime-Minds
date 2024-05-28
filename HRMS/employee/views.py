@@ -276,10 +276,9 @@ def all_attendance_view(request):
     context = {"attend": attend}
     return render(request, "all_attendance_view.html", context)
 
-
-def employee_profile(request, pk):
-    data = Employee_data.objects.get(id=pk)
-    return render(request, "employee_profile.html", {"data": data})
+# def employee_profile(request, pk):
+#     data = Employee_data.objects.get(id=pk)
+#     return render(request, "employee_profile.html", {"data": data})
 
 def employee_logout(request):
     logout(request)
@@ -296,6 +295,7 @@ def ViewLeaveDetails(request,pk):
         form = LeaveAdminForm(request.POST,instance=leave)
         if form.is_valid():
             form.save()
+            return redirect('viewLeaveRequest')
 
     else:
         form = LeaveAdminForm(instance=leave)

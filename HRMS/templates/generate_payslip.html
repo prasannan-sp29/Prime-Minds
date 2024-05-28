@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 
 <head>
@@ -9,12 +10,15 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
-            background-color: #f8f9fa;
+            background-image: url("{% static 'images/payroll3.jpg' %}");
+            background-repeat: no-repeat;
+            background-size:cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .container {
             margin-top: 30px;
+            opacity: 0.8;
         }
 
         .card {
