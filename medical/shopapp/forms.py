@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from shopapp.models import userdetials
+from shopapp.models import UserDetails,Employee
 
 class userForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput)
@@ -27,4 +27,8 @@ class userForm(forms.ModelForm):
             user.save()
         return user
 
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ['profile_picture','first_name','last_name','mail_id','phone_number']
 
