@@ -10,6 +10,7 @@ from datetime import datetime
 class Employee_data(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
+    emp_code = models.IntegerField()
     DOB = models.DateField()
     date_of_join = models.DateField()
     address = models.CharField(max_length=100)
@@ -46,6 +47,14 @@ class Payroll(models.Model):
 
     def __str__(self):
         return self.employee.name
+
+    def get_month(self):
+        date_obj = datetime.strptime(str(self.month), '%Y-%m-%d')
+        return date_obj.month
+
+    def get_year(self):
+        date_obj = datetime.strptime(str(self.month), '%Y-%m-%d')
+        return date_obj.year
 
     def get_end_of_month(self):
         date_obj = datetime.strptime(str(self.month), '%Y-%m-%d')
@@ -88,6 +97,7 @@ class Leave(models.Model):
     user = models.ForeignKey(Employee_data, on_delete=models.CASCADE, blank=True)
     startdate = models.DateField(verbose_name=_('Start Date'), help_text='leave start date is on ..', null=True, blank=False)
     enddate = models.DateField(verbose_name=_('End Date'), help_text='coming back on ...', null=True, blank=False)
+    days = models.IntegerField()
     leavetype = models.CharField(choices=LEAVE_TYPE, max_length=25, default=SICK, null=True, blank=False)
     reason = models.CharField(verbose_name=_('Reason for Leave'), max_length=255, help_text='add additional information for leave', null=True, blank=True)
     status = models.CharField(choices=STATUS,max_length=15, default='Pending') # pending, approved, rejected, cancelled
@@ -98,9 +108,9 @@ class Leave(models.Model):
     def __str__(self):
         return self.user.name
 
-    def get_leave_duration(self):
-        return (self.enddate - self.startdate).days
+    # def get_leave_duration(self):
+    #     return (self.enddate - self.startdate).days
 
-    def save(self, *args, **kwargs):
-        self.leave_duration = self.get_leave_duration()
-        super().save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.leave_duration = self.get_leave_duration()
+    #     super().save(*args, **kwargs)

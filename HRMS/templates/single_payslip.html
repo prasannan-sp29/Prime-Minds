@@ -8,6 +8,12 @@
 <body>
     <form action="" method="POST">
         {% csrf_token %}
+        <label for="dropdown">FOOD :</label>
+    <select name="op">
+      {% for item in datas %}
+      <option value="{{ item.id }}">{{ item.name }}</option>
+      {% endfor %}
+    </select>
         {{form.as_p}}
         <input type="submit" value="Generate">
     </form>

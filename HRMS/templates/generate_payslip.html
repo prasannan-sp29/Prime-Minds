@@ -12,7 +12,7 @@
         body {
             background-image: url("{% static 'images/payroll3.jpg' %}");
             background-repeat: no-repeat;
-            background-size:cover;
+            background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
@@ -53,7 +53,6 @@
             width: 100%;
         }
 
-        
         a {
             color: #007bff;
             text-decoration: none;
@@ -74,57 +73,81 @@
 
 <body>
     <div class="container">
-        <div class="card mx-auto" style="max-width: 800px;">
+        <div class="card mx-auto" style="max-width: 900px;">
             <div class="card-header">
                 <h3>Generate Payslip</h3>
             </div>
             <div class="card-body">
-                <form method="post">
+                <form method="post" id="subs">
                     {% csrf_token %}
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <label for="month" class="form-label"><strong>Month:</strong></label>
                             {{ form.month }}
                         </div>
-                        <div class="col-md-6 text-end">
-                            <button type="submit" class="btn btn-primary">Generate Payslip for all employees </button>
-                        </div>
-                    </div>
-                    <div class="row justify-content-center">
-                        <div class="col-md-12">
-                            {% include 'alert.html' %}
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Mail ID</th>
-                                    <th>Month</th>
-                                    <th>Department</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for i in pay %}
-                                <tr>
-                                    <td>{{ i.employee }}</td>
-                                    <td>{{ i.employee.mail_id }}</td>
-                                    <td>{{ i.month|upper }}</td>
-                                    <td>{{ i.employee.department }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-primary"><a href="{% url 'generate_payslip_pdf' pk=i.id %}">View Details</a></button>
-                                    </td>
-                                </tr>
+                        <div class="col-md-6">
+                            <label for="employee_id" class="form-label"><strong>Employee:</strong></label>
+                            <select name="employee_id" id="employee_id" class="form-select">
+                                <option value="">All Employees</option>
+                                {% for employee in employees %}
+                                    <option value="{{ employee.id }}">{{ employee.name }}</option>
                                 {% endfor %}
-                            </tbody>
-                        </table>
+                            </select>
+                        </div>
+                        <div class="col-md-6 text-end mt-3">
+                            <button type="button" class="btn btn-primary" onclick="proceeds()">Generate Payslip</button>
+                        </div>
                     </div>
                 </form>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-12">
+                        {% include 'alert.html' %}
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Mail ID</th>
+                                <th>Month</th>
+                                <th>Department</th>
+                                <th>Action</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for i in pay %}
+                            <tr>
+                                <td>{{ i.employee }}</td>
+                                <td>{{ i.employee.mail_id }}</td>
+                                <td>{{ i.month|upper }}</td>
+                                <td>{{ i.employee.department }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary">
+                                        <a href="{% url 'generate_payslip_pdf' pk=i.id %}">View Details</a>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-warning">
+                                        <a href="{% url 'delete_payslip' pk=i.id %}">Delete</a>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        function proceeds() {
+            document.getElementById('subs').submit()
+        }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"

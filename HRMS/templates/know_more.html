@@ -16,81 +16,82 @@
             background-repeat: no-repeat;
             background-size: cover;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
 
-        .container{
-            max-width: 70%;
-            opacity: 0.8;
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 900px;
+            width: 100%;
         }
 
-        .card {
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        img {
+        .profile-img {
             border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
         }
 
-        img:hover {
+        .profile-img:hover {
             transform: scale(1.1);
             transition: transform 0.3s ease;
             cursor: pointer;
         }
 
-        button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
+        .profile-details p {
+            margin-bottom: 10px;
         }
 
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        p {
-            margin-bottom: 5px;
-        }
-
-        strong {
+        .profile-details strong {
             font-weight: bold;
         }
 
-        .row-cols-md-6 > div {
-            margin-bottom: 10px;
+        .edit-btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .edit-btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="card">
+        <div class="card mb-4">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-3">
+                <div class="row align-items-center">
+                    <div class="col-md-3 text-center">
                         <img src="{% if data.profile_picture %}{{ data.profile_picture.url }}{% else %}{% static 'images/profile.jpeg' %}{% endif %}"
-                            alt="Profile Picture" class="img-fluid" height="100px" width="100px">
+                            alt="Profile Picture" class="profile-img">
                     </div>
                     <div class="col-md-6">
-                        <p><strong>NAME:</strong> {{ data.name }}</p>
-                        <p><strong>PHONE NUMBER:</strong> {{ data.phone_number }}</p>
-                        <p><strong>ALTERNATE PHONE NUMBER:</strong> {{ data.alternate_phone_number }}</p>
-                        <p><strong>MAIL ID:</strong> {{ data.mail_id }}</p>
+                        <div class="profile-details">
+                            <p><strong>Name:</strong> {{ data.name }}</p>
+                            <p><strong>Employee Code:</strong> {{ data.emp_code }}</p>
+                            <p><strong>Phone Number:</strong> {{ data.phone_number }}</p>
+                            <p><strong>Alternate Phone Number:</strong> {{ data.alternate_phone_number }}</p>
+                            <p><strong>Email ID:</strong> {{ data.mail_id }}</p>
+                        </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 text-center">
                         <a href="{% url 'edit_profile' pk=data.id %}">
-                            <button>Edit Profile</button>
+                            <button class="edit-btn">Edit Profile</button>
                         </a>
-                        
                     </div>
                 </div>
             </div>
@@ -100,18 +101,20 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>DATE OF JOIN:</strong> {{ data.date_of_join }}</p>
-                        <p><strong>DEPARTMENT:</strong> {{ data.department }}</p>
-                        <p><strong>BANK NAME:</strong> {{ data.bank_acc_number }}</p>
-                        <p><strong>BANK ACCOUNT NUMBER:</strong> {{ data.bank_acc_number }}</p>
-                        
+                        <div class="profile-details">
+                            <p><strong>Date of Join:</strong> {{ data.date_of_join }}</p>
+                            <p><strong>Department:</strong> {{ data.department }}</p>
+                            <p><strong>Bank Name:</strong> {{ data.bank_name }}</p>
+                            <p><strong>Bank Account Number:</strong> {{ data.bank_acc_number }}</p>
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>DATE OF BIRTH:</strong> {{ data.DOB }}</p>
-                        <p><strong>AADHAR NUMBER:</strong> {{ data.aadhar_no }}</p>
-                        <p><strong>PAN NUMBER:</strong> {{ data.pan_number }}</p>
-                        <p><strong>ADDRESS:</strong> {{ data.address }}, {{ data.city }}, {{ data.state }},
-                            {{ data.pincode }}</p>
+                        <div class="profile-details">
+                            <p><strong>Date of Birth:</strong> {{ data.DOB }}</p>
+                            <p><strong>Aadhar Number:</strong> {{ data.aadhar_no }}</p>
+                            <p><strong>PAN Number:</strong> {{ data.pan_number }}</p>
+                            <p><strong>Address:</strong> {{ data.address }}, {{ data.city }}, {{ data.state }}, {{ data.pincode }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

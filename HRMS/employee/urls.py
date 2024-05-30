@@ -8,7 +8,7 @@ urlpatterns = [
     path('know_more/<int:pk>/',views.know_more,name='know_more'),
     path('edit_profile/<int:pk>/',views.edit_profile,name='edit_profile'),
     path('generate_payslip/', views.generate_payslip, name='generate_payslip'),
-    path('single_payslip/', views.single_payslip, name='single_payslip'),
+    # path('single_payslip/', views.single_payslip, name='single_payslip'),
     path('generate_payslip_pdf/<int:pk>/', views.generate_payslip_pdf, name='generate_payslip_pdf'),
     path('attendance/',views.attendacne_view,name='attendance'),
     path('deleteEmployee/<int:pk>/',views.deleteEmployee,name='delete_emp'),
@@ -25,5 +25,6 @@ urlpatterns = [
     path('AdminLogOut/',views.AdminLogOut,name='AdminLogOut'),
     path('approved_leave/',views.approvedLeave,name='approved_leave'),
     path('rejected_leave/',views.rejectedLeave,name='rejected_leave'),
-
+    path('delete_payslip/<int:pk>/',views.delete_payslip,name='delete_payslip'),
+    path('pay/',views.pay,name='pay')
 ]

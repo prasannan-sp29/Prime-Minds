@@ -126,7 +126,7 @@
                 <tr>
                     <td>{{ i.user }}</td>
                     <td>{{ i.leavetype }}</td>
-                    <td>{{ i.enddate|date:"Y-m-d" }} - {{ i.startdate|date:"Y-m-d" }}</td>
+                    <td>{{ i.startdate|date:"Y-m-d" }} - {{ i.enddate|date:"Y-m-d" }}</td>
                     <td>
                         <span
                             class="{% if i.status == 'Approved' %}status approved{% elif i.status == 'Pending' %}status pending{% elif i.status == 'Rejected' %}status rejected{% endif %}">

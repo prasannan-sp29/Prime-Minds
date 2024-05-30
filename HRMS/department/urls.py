@@ -5,4 +5,5 @@ urlpatterns = [
     path('addDepartment',views.add_department,name='addDepartment'),
     path('del_department/<int:pk>/',views.del_department,name='del_department'),
     path('department_view/<int:pk>/',views.department_view,name='department_view'),
+    path('department_delete/<int:pk>/',views.department_delete,name='department_delete')
 ]

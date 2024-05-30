@@ -12,7 +12,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url("{% static 'images/download.jpg' %}");
+            background-image: url("{% static 'images/log.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
             margin: 0;
@@ -139,7 +139,7 @@
             <a class="btn btn-attendance" href="{% url 'allAttendanceView' %}">Attendance</a>
             <a class="btn btn-leave" href="{% url 'viewLeaveRequest' %}">View Leave Request</a>
             <a class="btn btn-contacts" href="{% url 'contacts' %}">Contacts</a>
-            <a class="btn btn-department" href="{% url 'profile' %}">Self Service</a>
+            <a class="btn btn-department" href="{% url 'pay' %}">Self Service</a>
             <a class="btn btn-logout" href="{% url 'AdminLogOut' %}">Loout</a>
         </div>
     </div>
