@@ -137,8 +137,10 @@ def generate_payslip_pdf(request, pk):
     print(total_days + 1)
     # Calculate the number of business days
     days = np.busday_count(start_date.date(), end_date.date())
+
     total_working_days = days + 1
-    leave_daya = total_days - total_working_days
+    
+    leave_days = total_days - total_working_days
     print(total_working_days)
 
     leaves_taken = 0
@@ -148,10 +150,14 @@ def generate_payslip_pdf(request, pk):
     start_ = timezone.datetime(year, month, 1)
     end_ = timezone.datetime(year, month + 1, 1) - timezone.timedelta(days=1)
     leaves = Leave.objects.filter(user_id = slip.employee_id, status = 'Approved', startdate__lte=end_, enddate__gte=start_)
-
     print(leaves)
+
+    for i in leaves:
+        leaves_taken += i.days
     
-    return render(request, "payslip_template.html", {'leave_days':leave_daya,"slip": slip, 'end_of_month': end_of_month, 'total_working_days': total_working_days})
+    present_days = total_working_days - leaves_taken
+
+    return render(request, "payslip_template.html", {'leave_days':leave_days,"slip": slip, 'end_of_month': end_of_month, 'total_working_days': total_working_days,'leaves_taken':leaves_taken,'present_days':present_days})
 
 
 def attendacne_view(request):
@@ -220,12 +226,34 @@ def RequestLeave(request):
             start = leave.startdate
             end = leave.enddate
             leave.user = get_employee(request)
-            leave.days = get_leave_duration(start, end)
+            leave.days = get_leave_duration(start, end) + 1
             leave.save()
             return redirect('applyLeave', pk=get_employee_id(request))
     else:
         form = LeaveForm()
     return render(request, 'RequestLeave.html', {'form': form})
+
+def edit_leave(request,pk):
+    if request.method == 'POST':
+        res = Leave.objects.get(id=pk)
+        form = LeaveForm(request.POST,instance=res)
+        if form.is_valid():
+            leave = form.save(commit=False)
+            start = leave.startdate
+            end = leave.enddate
+            leave.user = get_employee(request)
+            leave.days = get_leave_duration(start, end) + 1
+            leave.save()
+            return redirect('applyLeave', pk=get_employee_id(request))
+    else:
+        res = Leave.objects.get(id=pk)
+        form = LeaveForm(instance=res)
+    return render(request,'edit_leave.html',{'form':form})
+
+def delete_leave(request,pk):
+    res = Leave.objects.get(id=pk)
+    res.delete()
+    return redirect('applyLeave', pk=get_employee_id(request))
 
 def all_attendance_view(request):
     attend = Attendance.objects.all()
@@ -281,3 +309,4 @@ def delete_payslip(request,pk):
     res = Payroll.objects.get(id=pk)
     res.delete()
     return redirect('generate_payslip')
+

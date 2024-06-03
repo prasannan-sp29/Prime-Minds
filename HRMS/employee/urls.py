@@ -26,5 +26,7 @@ urlpatterns = [
     path('approved_leave/',views.approvedLeave,name='approved_leave'),
     path('rejected_leave/',views.rejectedLeave,name='rejected_leave'),
     path('delete_payslip/<int:pk>/',views.delete_payslip,name='delete_payslip'),
-    path('pay/',views.pay,name='pay')
+    path('pay/',views.pay,name='pay'),
+    path('edit_leave/<int:pk>/',views.edit_leave,name='edit_leave'),
+    path('delete_leave/<int:pk>/',views.delete_leave,name='delete_leave'),
 ]

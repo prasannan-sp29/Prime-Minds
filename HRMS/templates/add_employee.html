@@ -26,6 +26,8 @@
             background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+            padding-top: 80px;
+            padding-bottom: 40px;
         }
         
         h2 {
@@ -86,9 +88,66 @@
             border-radius: 4px;
             border: 1px solid #ddd;
         }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background-color: #333;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+
+        .navbar .navbar-left a {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar .navbar-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar .nav-button {
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-button:hover {
+            background-color: #777;
+        }
     </style>
 </head>
 <body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="#" class="brand">Prime Minds Consulting Pvt Ltd.</a>
+        </div>
+        <div class="navbar-right">
+            <a href="{% url 'dashboard' %}" class="nav-button">Home</a>
+            <a href="{% url 'employee_details' %}" class="nav-button">Employee</a>
+            <a href="{% url 'addDepartment' %}" class="nav-button">Department</a>
+            <a href="{% url 'allAttendanceView' %}" class="nav-button">Attendance</a>
+            <a href="{% url 'generate_payslip' %}" class="nav-button">Payroll</a>
+            <a href="{% url 'viewLeaveRequest' %}" class="nav-button">Leaves</a>
+            <a href="{% url 'contacts' %}" class="nav-button">Contacts</a>
+            <a href="{% url 'pay' %}" class="nav-button">Self Service</a>
+            <a href="{% url 'AdminLogOut' %}" class="nav-button">Logout</a>
+        </div>
+    </nav>
+
     <div class="container">
         <h2>Add Employee</h2>
         <form method="POST" enctype="multipart/form-data">
@@ -132,43 +191,44 @@
                 {{ form.pincode }}
             </div>
             <div class="form-group">
-                <label for="phone_number">Phone Number</label>
-                {{ form.phone_number }}
-            </div>
-            <div class="form-group">
-                <label for="alternate_number">Alternate Phone Number</label>
-                {{ form.alternate_phone_number }}
-            </div>
-            <div class="form-group">
-                <label for="mail_id">Mail ID</label>
-                {{ form.mail_id }}
-            </div>
-            <div class="form-group">
-                <label for="aadhar_no">Aadhar Number</label>
-                {{ form.aadhar_no }}
-            </div>
-            <div class="form-group">
-                <label for="pan_number">PAN Number</label>
-                {{ form.pan_number }}
-            </div>
-            <div class="form-group">
-                <label for="department">Department</label>
-                {{ form.department }}
-            </div>
-            <div class="form-group">
-                <label for="bank_name">Bank Name</label>
-                {{ form.bank_name }}
-            </div>
-            <div class="form-group">
-                <label for="bank_acc_number">Account Number</label>
-                {{ form.bank_acc_number }}
-            </div>
-            <div class="form-group">
-                <label for="salary">CTC</label>
-                {{ form.salary }}
-            </div>
-            <button type="submit">Add Employee</button>
-        </form>
-    </div>
-</body>
-</html>
+                <label for="phone_number">Phone Number</label
+                    {{ form.phone_number }}
+                </div>
+                <div class="form-group">
+                    <label for="alternate_phone_number">Alternate Phone Number</label>
+                    {{ form.alternate_phone_number }}
+                </div>
+                <div class="form-group">
+                    <label for="mail_id">Mail ID</label>
+                    {{ form.mail_id }}
+                </div>
+                <div class="form-group">
+                    <label for="aadhar_no">Aadhar Number</label>
+                    {{ form.aadhar_no }}
+                </div>
+                <div class="form-group">
+                    <label for="pan_number">PAN Number</label>
+                    {{ form.pan_number }}
+                </div>
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    {{ form.department }}
+                </div>
+                <div class="form-group">
+                    <label for="bank_name">Bank Name</label>
+                    {{ form.bank_name }}
+                </div>
+                <div class="form-group">
+                    <label for="bank_acc_number">Account Number</label>
+                    {{ form.bank_acc_number }}
+                </div>
+                <div class="form-group">
+                    <label for="salary">CTC</label>
+                    {{ form.salary }}
+                </div>
+                <button type="submit">Add Employee</button>
+            </form>
+        </div>
+    </body>
+    </html>
+    

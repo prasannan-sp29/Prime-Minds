@@ -24,10 +24,14 @@ def index(request):
         if user:
             if user.is_active:
                 login(request,user)
-                d = Employee_data.objects.get(user=user)
+                try:
+                    d = Employee_data.objects.get(user=user)
+                except Employee_data.DoesNotExist:
+                    return HttpResponse('Employee Query doesn"t exist')
+
                 print(d.department)
                 
-                if str(d.department) == 'admin':
+                if (str(d.department)).lower() == 'admin':
                     print('Login Success')
                 
                     return redirect('dashboard')

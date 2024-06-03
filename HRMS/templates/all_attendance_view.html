@@ -14,27 +14,47 @@
             background-image: url("{% static 'images/attendance.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
+            background-attachment: fixed;
             padding-top: 60px;
             padding-bottom: 60px;
         }
 
         .container {
-            opacity: 0.9;
-            background-color: #fff;
+            max-width: 70%;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 8px;
             padding: 30px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
 
         h4 {
             color: #333;
             margin-bottom: 20px;
             text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
 
         th,
@@ -45,16 +65,85 @@
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
         }
 
         tr:hover {
             background-color: #f5f5f5;
         }
+
+        @media (max-width: 767px) {
+            .container {
+                padding: 15px;
+            }
+
+            h4 {
+                font-size: 20px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+        }
+
+        .navbar {
+            width: 100%;
+            background-color: #333;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .navbar-left a {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar .navbar-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar .nav-button {
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-button:hover {
+            background-color: #777;
+        }
     </style>
 </head>
 
 <body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="#" class="brand">Prime Minds Consulting Pvt Ltd.</a>
+        </div>
+        <div class="navbar-right">
+            <a href="{% url 'dashboard' %}" class="nav-button">Home</a>
+            <a href="{% url 'employee_details' %}" class="nav-button">Employee</a>
+            <a href="{% url 'addDepartment' %}" class="nav-button">Department</a>
+            <a href="{% url 'allAttendanceView' %}" class="nav-button">Attendance</a>
+            <a href="{% url 'generate_payslip' %}" class="nav-button">Payroll</a>
+            <a href="{% url 'viewLeaveRequest' %}" class="nav-button">Leaves</a>
+            <a href="{% url 'contacts' %}" class="nav-button">Contacts</a>
+            <a href="{% url 'pay' %}" class="nav-button">Self Service</a>
+            <a href="{% url 'AdminLogOut' %}" class="nav-button">Logout</a>
+        </div>
+    </nav>
+
     <div class="container">
         <h4>Attendance Report</h4>
         <!-- Filter Form -->
@@ -70,7 +159,7 @@
             </div>
         </form>
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-hover">
             <thead>
                 <tr>
                     <th>Name</th>

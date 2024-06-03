@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <a href="{% url 'add_dealer' %}">Add Dealer</a><br>
+    <!-- <a href="">view Dealer</a> -->
+
+    {% for i in deal %}
+    <a href="{% url 'view_dealer' pk=i.id %}">{{i.dealer_name}}</a>
+    {% endfor %}
+
+</body>
+</html>

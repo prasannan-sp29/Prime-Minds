@@ -21,6 +21,7 @@
             max-width: 800px;
             margin: 0 auto;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
         }
 
         h1,
@@ -94,10 +95,66 @@
         button:hover {
             background-color: #45a049;
         }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background-color: #333;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar .navbar-left a {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .navbar .navbar-right {
+            display: flex;
+            gap: 10px;
+        }
+
+        .navbar .nav-button {
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-button:hover {
+            background-color: #777;
+        }
     </style>
 </head>
 
 <body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="#" class="brand">Prime Minds Consulting Pvt Ltd.</a>
+        </div>
+        <a href="{% url 'dashboard' %}" class="nav-button">Home</a>
+        <a href="{% url 'employee_details' %}" class="nav-button">Employee</a>
+        <a href="{% url 'addDepartment' %}" class="nav-button">Department</a>
+        <a href="{% url 'allAttendanceView' %}" class="nav-button">Attendance</a>
+        <a href="{% url 'generate_payslip' %}" class="nav-button">Payroll</a>
+        <a href="{% url 'viewLeaveRequest' %}" class="nav-button">Leaves</a>
+        <a href="{% url 'contacts' %}" class="nav-button">Contacts</a>
+        <a href="{% url 'pay' %}" class="nav-button">Self Service</a>
+        <a href="{% url 'AdminLogOut' %}" class="nav-button">Logout</a>
+        </div>
+    </nav>
+
+
     <div id="payslips">
         <table id="payslip" class="table-bordered" width="100%">
             <thead>
@@ -154,8 +211,16 @@
                     <td colspan="2">{{total_working_days}}</td>
                 </tr>
                 <tr>
+                    <td colspan="2">Present Days</td>
+                    <td colspan="2">{{present_days}}</td>
+                </tr>
+                <tr>
                     <td colspan="2">Weekly Offs/Holidays</td>
                     <td colspan="2">{{leave_days}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2">Leaves Taken (days)</td>
+                    <td colspan="2">{{leaves_taken}}</td>
                 </tr>
                 <tr>
                     <th>Code</th>
@@ -213,14 +278,14 @@
         </table>
         <button onclick="downloadPDF()">Download as PDF</button>
     </div>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script>
         function downloadPDF() {
             var element = document.getElementById('payslip');
             html2pdf(element, {
                 margin: 10,
-                filename: `${{slip.employee.name}}-payslip.pdf`,
+                filename: `${{ slip.employee.name }}-payslip.pdf`,
                 html2canvas: { scale: 2 },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             });

@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leave Status</title>
-    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -18,12 +17,12 @@
 
         .container {
             max-width: 800px;
-            margin: 0 auto;
+            margin: 60px auto 0;
             padding: 20px;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            opacity: 0.9;
+            margin-top: 100px;
         }
 
         h2 {
@@ -75,20 +74,66 @@
             background-color: #d9534f;
         }
 
-        .details-link {
-            color: #0275d8;
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            background-color: #333;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .navbar .navbar-left a {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
             text-decoration: none;
         }
 
-        .details-link:hover {
-            text-decoration: underline;
+        .navbar .navbar-right {
+            display: flex;
+            gap: 10px;
         }
 
+        .navbar .nav-button {
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-button:hover {
+            background-color: #777;
+        }
     </style>
 </head>
 <body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="#" class="brand">Prime Minds Consulting Pvt Ltd.</a>
+        </div>
+        <div class="navbar-right">
+            <a href="{% url 'dashboard' %}" class="nav-button">Home</a>
+            <a href="{% url 'employee_details' %}" class="nav-button">Employee</a>
+            <a href="{% url 'addDepartment' %}" class="nav-button">Department</a>
+            <a href="{% url 'allAttendanceView' %}" class="nav-button">Attendance</a>
+            <a href="{% url 'generate_payslip' %}" class="nav-button">Payroll</a>
+            <a href="{% url 'viewLeaveRequest' %}" class="nav-button">Leaves</a>
+            <a href="{% url 'contacts' %}" class="nav-button">Contacts</a>
+            <a href="{% url 'pay' %}" class="nav-button">Self Service</a>
+            <a href="{% url 'AdminLogOut' %}" class="nav-button">Logout</a>
+        </div>
+    </nav>
+
     <div class="container">
-       
+        <h2>Approved List</h2>
         <table class="leave-table">
             <thead>
                 <tr>
@@ -104,8 +149,8 @@
                 <tr>
                     <td>{{ i.user }}</td>
                     <td>{{ i.leavetype }}</td>
-                    <td>{{ i.enddate|date:"Y-m-d" }} - {{ i.startdate|date:"Y-m-d" }}</td>
-                    <td><span class="{% if i.status == 'Approved' %}status approved {% elif i.status == 'Pending' %}status pending{% elif i.status == 'Rejected' %}status rejected{% endif %}">{{ i.status }}</span></td>
+                    <td>{{ i.startdate|date:"Y-m-d" }} - {{ i.enddate|date:"Y-m-d" }}</td>
+                    <td><span class="status {{ i.status|lower }}">{{ i.status }}</span></td>
                 </tr>
                 {% endif %}
                 {% endfor %}

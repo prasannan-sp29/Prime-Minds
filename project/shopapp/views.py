@@ -27,7 +27,7 @@ def register(request):
             return redirect('login')
     else:
         form = userForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'add_customer.html', {'form': form})
 
 def login(request):
     if request.method == "POST":
@@ -59,15 +59,28 @@ def customer_dashboard(request):
 def customer_management(request):
     return render(request,'customer_mang.html')   
 
+def customer_list(request):
+    customers = Customer.objects.all()
+    return render(request, 'customer_list.html', {'customers': customers})
+
+# Add Customer 👇👇
 def add_customer(request):
     if request.method == 'POST':
-        form = CustomerForm(request.POST)
+        form = CustomerForm(request.POST,request.FILES)
+
         if form.is_valid():
-            form.save()
-            return redirect('view_customers')
+            customer = form.save(commit=False)
+            user = User.objects.create_user(username=customer.username,password = customer.password,first_name=customer.first_name,last_name=customer.last_name,email=customer.mail_id)
+            customer.user = user
+            customer.role = 'Customer'
+            customer.save()
+
+            UserDetails.objects.create(user=user,role='Customer')
+
+            # return redirect('view_customers')
     else:
         form = CustomerForm()
-    return render(request, 'shop/add_customer.html', {'form': form})
+    return render(request, 'add_customer.html', {'form': form})
 
 def view_customers(request):
     customers = Customer.objects.all()
@@ -78,16 +91,6 @@ def employee_dashboard(request):
 
 def emp_management(request):
     return render(request,'emp_management.html')    
-
-def add_employee(request):
-    if request.method == 'POST':
-        form = EmployeeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('view_employees')
-    else:
-        form = EmployeeForm()
-    return render(request, 'shop/add_employee.html', {'form': form})
 
 def view_employees(request):
     employees = Employee.objects.all()
@@ -142,7 +145,6 @@ def add_admin(request):
             user = User.objects.create_user(
                 username=username, email=email, password=password,first_name=first_name,last_name=last_name
             )
-
             employee.user = user
             employee.id = user.id
             employee.save()
@@ -168,13 +170,11 @@ def add_dealer(request):
             return redirect('dealer_management')
     else:
         form = DealerForm()
-    return render(request,'add_dealer.html',{'form':form})
-
-
+    return render(request, 'add_dealer.html', {'form': form})
 
 def view_dealers(request):
     dealers = Dealer.objects.all()
-    return render(request, 'shop/view_dealers.html', {'dealers': dealers})
+    return render(request, 'view_dealers.html', {'dealers': dealers})
 
 def medicine_management(request):
     return render(request,'medicine_mang.html')
@@ -187,8 +187,44 @@ def add_medicine(request):
             return redirect('view_medicines')
     else:
         form = MedicineForm()
-    return render(request, 'shop/add_medicine.html', {'form': form})
+    return render(request, 'add_medicine.html', {'form': form})
 
 def view_medicines(request):
     medicines = Medicine.objects.all()
-    return render(request, 'shop/view_medicines.html', {'medicines': medicines})        
+    return render(request, 'view_medicines.html', {'medicines': medicines})  
+
+def medicine_list(request):
+    medicines = Medicine.objects.all()
+    return render(request, 'medicine_list.html', {'medicines': medicines})
+
+def Sale(request):
+    if request.method == 'POST':
+        user_form = userForm(request.POST)
+        sale_form = SaleForm(request.POST)
+        if user_form.is_valid() and sale_form.is_valid():
+            customer = user_form.save()
+            purchase = sale_form.save(commit=False)
+            purchase.customer = customer
+            purchase.save()
+            return redirect('success')
+    else:
+        user_form = userForm()
+        sale_form = SaleForm()
+    
+    return render(request, 'new_sale.html', {'user_form': user_form, 'sale_form': sale_form})
+
+def sale_management(request):
+    return render(request,'sale_mang.html')  
+
+def purchase_management(request):
+    return render(request,'purchase_mang.html')
+
+def create_purchase(request):
+    if request.method == 'POST':
+        form = PurchaseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('success')  # Redirect to a success page after saving
+    else:
+        form = PurchaseForm()
+    return render(request, 'new_purchase.html', {'form': form})

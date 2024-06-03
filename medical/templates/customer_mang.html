@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin-top: 20px;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .img-fluid {
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'add_customer' %}" class="btn">Create Customer</a> 
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Mail ID</th>
+                    <th>Address</th>
+                    <th>Role</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in cust %}
+                <tr>
+                    <td>
+                        <img src="{% if i.profile_picture %}{{ i.profile_picture.url }}{% else %}{% static 'images/profile.jpeg' %}{% endif %}"
+                            alt="Profile Picture" class="img-fluid" height="70px" width="70px">
+                    </td>
+                    <td><a href="{% url 'edit_customer' pk=i.id %}">{{ i.first_name }} {{ i.last_name }}</a></td>
+                    <td>{{ i.phone_number }}</td>
+                    <td>{{ i.mail_id }}</td>
+                    <td>{{ i.address }}, {{ i.city }}, {{ i.state }}, {{ i.pincode }}</td>
+                    <td>{{ i.role }}</td>
+                  
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

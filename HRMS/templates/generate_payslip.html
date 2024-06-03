@@ -17,8 +17,7 @@
         }
 
         .container {
-            margin-top: 30px;
-            opacity: 0.8;
+            margin-top: 90px;
         }
 
         .card {
@@ -53,25 +52,61 @@
             width: 100%;
         }
 
-        a {
-            color: #007bff;
+        .navbar {
+            width: 100%;
+            background-color: #333;
+            padding: 10px 20px;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .navbar-left a {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
             text-decoration: none;
         }
 
-        a:hover {
-            color: #0a0a0a;
+        .navbar .navbar-right {
+            display: flex;
+            gap: 10px;
         }
 
-        @media (min-width: 768px) {
-            .btn-container {
-                display: flex;
-                justify-content: space-between;
-            }
+        .navbar .nav-button {
+            padding: 10px 20px;
+            background-color: #555;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .nav-button:hover {
+            background-color: #777;
         }
     </style>
 </head>
 
 <body>
+
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="#" class="brand">Prime Minds Consulting Pvt Ltd.</a>
+        </div>
+        <div class="navbar-right">
+            <a href="{% url 'dashboard' %}" class="nav-button">Home</a>
+            <a href="{% url 'employee_details' %}" class="nav-button">Employee</a>
+            <a href="{% url 'addDepartment' %}" class="nav-button">Department</a>
+            <a href="{% url 'allAttendanceView' %}" class="nav-button">Attendance</a>
+            <a href="{% url 'generate_payslip' %}" class="nav-button">Payroll</a>
+            <a href="{% url 'viewLeaveRequest' %}" class="nav-button">Leaves</a>
+            <a href="{% url 'contacts' %}" class="nav-button">Contacts</a>
+            <a href="{% url 'pay' %}" class="nav-button">Self Service</a>
+            <a href="{% url 'AdminLogOut' %}" class="nav-button">Logout</a>
+        </div>
+    </nav>
+
     <div class="container">
         <div class="card mx-auto" style="max-width: 900px;">
             <div class="card-header">
@@ -131,9 +166,8 @@
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-outline-warning">
-                                        <a href="{% url 'delete_payslip' pk=i.id %}">Delete</a>
-                                    </button>
+                                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal"
+                            data-url="{% url 'delete_payslip' pk=i.id %}">Delete</button>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -143,15 +177,43 @@
             </div>
         </div>
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this Payroll?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger" id="confirmDelete">Yes, Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function proceeds() {
-            document.getElementById('subs').submit()
+            document.getElementById('subs').submit();
         }
+
+        var deleteModal = document.getElementById('deleteModal')
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget
+            var url = button.getAttribute('data-url')
+            var confirmDeleteButton = document.getElementById('confirmDelete')
+            confirmDeleteButton.setAttribute('href', url)
+        })
     </script>
 
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>

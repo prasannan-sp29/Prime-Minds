@@ -10,7 +10,7 @@ from datetime import datetime
 class Employee_data(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
-    emp_code = models.IntegerField()
+    emp_code = models.CharField(max_length=10)
     DOB = models.DateField()
     date_of_join = models.DateField()
     address = models.CharField(max_length=100)
