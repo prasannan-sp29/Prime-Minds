@@ -140,9 +140,8 @@
 
     <nav class="navbar">
         <div class="navbar-left">
-            <a href="#" class="brand">Prime Minds Consulting Pvt Ltd.</a>
+            <a href="{% url 'dashboard' %}" class="brand">Prime Minds Consulting Pvt Ltd.</a>
         </div>
-        <a href="{% url 'dashboard' %}" class="nav-button">Home</a>
         <a href="{% url 'employee_details' %}" class="nav-button">Employee</a>
         <a href="{% url 'addDepartment' %}" class="nav-button">Department</a>
         <a href="{% url 'allAttendanceView' %}" class="nav-button">Attendance</a>
@@ -198,8 +197,14 @@
                 <tr>
                     <td>Date of Joining</td>
                     <td>{{slip.employee.date_of_join}}</td>
+                    <td>IFSC CODE</td>
+                    <td>{{slip.employee.ifsc_code}}</td>
+                </tr>
+                <tr>
                     <td>Location</td>
                     <td>Bengaluru</td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 <tr>
                     <th colspan="4">

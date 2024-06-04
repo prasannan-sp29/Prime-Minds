@@ -50,7 +50,7 @@ class Customer(models.Model):
 class Dealer(models.Model):
     dealer_name = models.CharField(max_length=100)
     tablet_name = models.CharField(max_length=100)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     # comapny_name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     phone = models.BigIntegerField()
@@ -64,7 +64,7 @@ class Medicine(models.Model):
     medicine_name = models.CharField(max_length=100)
     medicine_code = models.CharField(max_length=20)
     dealer_name = models.ForeignKey(Dealer, on_delete=models.CASCADE)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.PositiveIntegerField()
     company_name = models.CharField(max_length=100)
     description = models.CharField(max_length=100)
@@ -73,16 +73,6 @@ class Medicine(models.Model):
 
     def __str__(self):
         return self.medicine_name
-
-
-
-
-# class Customer(models.Model):
-#     name = models.CharField(max_length=100)
-#     phone_number = models.CharField(max_length=15)
-
-#     def __str__(self):
-#         return self.name
 
 
 class Purchase(models.Model):
@@ -133,4 +123,40 @@ class Delivery(models.Model):
 
     def __str__(self):
         return f"Delivery for Sale: {self.sale}"
+
+class Lead(models.Model):
+    customer_name = models.CharField(max_length=100)
+    phone_number = models.BigIntegerField()
+    tablet_name = models.CharField(max_length=100)
+    email = models.EmailField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField()
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.customer_name
+
+class Opportunity(models.Model):
+    lead = models.ForeignKey(Lead, on_delete=models.CASCADE)
+    customer_name = models.CharField(max_length=100)
+    phone_number = models.BigIntegerField()
+    tablet_name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    quantity = models.PositiveIntegerField()
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.customer_name
+
+class SalesOrder(models.Model):
+    opportunity = models.ForeignKey(Opportunity, on_delete=models.CASCADE)
+    customer_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15)
+    tablet_name = models.CharField(max_length=100)
+    price = models.FloatField()
+    quantity = models.IntegerField()
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.customer_name        
 

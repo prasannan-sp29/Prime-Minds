@@ -3,9 +3,10 @@ from employee import views
 
 urlpatterns = [
     path('dashboard/',views.dashboard,name='dashboard'),
-    path('employee_details',views.employeeDetails,name='employee_details'),
+    path('employee_details/',views.employeeDetails,name='employee_details'),
     path('addEmployee/',views.add_employee,name='addEmployee'),
     path('know_more/<int:pk>/',views.know_more,name='know_more'),
+    path('know_mores/<int:pk>/',views.know_mores,name='know_mores'),
     path('edit_profile/<int:pk>/',views.edit_profile,name='edit_profile'),
     path('generate_payslip/', views.generate_payslip, name='generate_payslip'),
     # path('single_payslip/', views.single_payslip, name='single_payslip'),

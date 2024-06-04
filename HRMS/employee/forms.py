@@ -5,8 +5,8 @@ import datetime
 class add_employee_form(forms.ModelForm):
     class Meta:
         model = Employee_data
-        fields = ['profile_picture', 'name','emp_code', 'DOB', 'date_of_join', 'address', 'city', 'pincode', 'phone_number','alternate_phone_number','aadhar_no', 'state', 'mail_id', 'pan_number', 'department', 'salary',
-        'bank_name','bank_acc_number']
+        fields = ['profile_picture', 'name','emp_code', 'DOB','gender', 'date_of_join', 'permenant_address','current_address', 'phone_number','alternate_phone_number','aadhar_no', 'mail_id', 'pan_number', 'department', 'salary',
+        'bank_name','bank_acc_number','emergency_contact_number','emergency_contact_name','emergency_contact_relationship','ifsc_code']
         widgets = {
             'DOB': forms.DateInput(attrs={'type': 'date'}),
             'date_of_join': forms.DateInput(attrs={'type': 'date'}),

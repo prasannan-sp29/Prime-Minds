@@ -39,8 +39,17 @@ urlpatterns = [
 
     path('edit_sale/<int:pk>/',views.edit_sale,name='edit_sale'),
     path('delete_sale/<int:pk>/',views.delete_sale,name='delete_sale'),
+
     path('confirm_sale/<int:pk>/', views.confirm_sale, name='confirm_sale'),
+    path('confirm_lead/<int:pk>/',views.confirm_lead,name='confirm_lead'),
+    path('confirm_opportunity/<int:pk>/',views.confirm_opportunity,name='confirm_opportunity'),
+    
     path('confirm/', views.confirm, name='confirm'),    
     path('change_status/', views.change_status, name='change_status'),
-    path('delivery_report/<int:pk>/',views.delivery_report,name='delivery_report')
+    path('delivery_report/<int:pk>/',views.delivery_report,name='delivery_report'),
+    path('crm_management/',views.crm_management,name='crm_mang'),
+    path('view_lead/',views.view_lead,name='view_lead'),
+    path('view_opportunity/',views.view_opportunity,name='view_opportunity'),
+    path('view_sale_order/',views.view_sale_order,name='view_sale_order'),
+
 ]

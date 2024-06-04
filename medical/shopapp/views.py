@@ -384,3 +384,37 @@ def change_status(request):
 def delivery_report(request,pk):
     dlry = Delivery.objects.get(id=pk)
     return render(request,'delivery_report.html',{'dlry':dlry})
+
+def crm_management(request):
+    crm = Lead.objects.all()
+    return render(request,'crm_mang.html',{'crm':crm})
+
+def view_lead(request):
+    le = Lead.objects.all()
+    return render(request,'view_lead.html',{'le':le})
+
+def confirm_lead(request, pk):
+    lead = get_object_or_404(Lead, pk=pk)
+    if request.method == 'POST':
+        lead.status = True
+        lead.save()
+        return redirect('view_lead')
+    return render(request, 'confirm_lead.html', {'lead': lead})
+
+
+
+def view_opportunity(request):
+    oppo = Opportunity.objects.all()
+    return render(request,'view_opportunity.html',{'oppo':oppo})
+
+def confirm_opportunity(request, pk):
+    oppo = get_object_or_404(Opportunity, pk=pk)
+    if request.method == 'POST':
+        oppo.status = True
+        oppo.save()
+        return redirect('view_opportunity')
+    return render(request, 'confirm_opportunity.html', {'oppo': oppo})    
+
+def view_sale_order(request):
+    sale_order = SalesOrder.objects.all()
+    return render(request,'view_sale_order.html',{'sale_order':sale_order})

@@ -33,6 +33,7 @@ class EmployeeForm(forms.ModelForm):
         fields = ['profile_picture','emp_id','first_name','last_name','mail_id','phone_number','address','salary']
 
 class CustomerForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = Customer
         fields = ['first_name','last_name','username','password','address','city','state','pincode','phone_number','mail_id','profile_picture']
@@ -70,3 +71,18 @@ class PurchaseForm(forms.ModelForm):
         widgets = {
             'price': forms.NumberInput(attrs={'step': '0.01'}),
         }
+
+class LeadForm(forms.ModelForm):
+    class Meta:
+        model = Lead
+        fields = '__all__'
+
+class OpportunityForm(forms.ModelForm):
+    class Meta:
+        model = Opportunity
+        fields = '__all__'
+
+class SalesOrderForm(forms.ModelForm):
+    class Meta:
+        model = SalesOrder  
+        fields = '__all__'                  

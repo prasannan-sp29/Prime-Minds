@@ -7,20 +7,30 @@ import calendar
 from datetime import datetime
 
 # Create your models here.
+
+option = (
+    ('MALE','MALE'),
+    ('FEMALE','FEMALE'),
+    ('OTHERS','OTHERS')
+)
+
 class Employee_data(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
     emp_code = models.CharField(max_length=10)
     DOB = models.DateField()
+    gender = models.CharField(choices = option,max_length=20)
     date_of_join = models.DateField()
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    pincode = models.IntegerField()
+    permenant_address = models.CharField(max_length=100)
+    current_address = models.CharField(max_length=100)
     phone_number = models.BigIntegerField()
     alternate_phone_number = models.BigIntegerField(blank=True)
+    emergency_contact_name = models.CharField(max_length=50)
+    emergency_contact_relationship = models.CharField(max_length=50)
+    emergency_contact_number = models.BigIntegerField()
     bank_name = models.CharField(max_length=50)
     bank_acc_number = models.BigIntegerField()
+    ifsc_code = models.CharField(max_length=15)
     mail_id = models.EmailField()
     aadhar_no = models.BigIntegerField()
     pan_number = models.CharField(max_length=20)
@@ -100,8 +110,8 @@ class Leave(models.Model):
     days = models.IntegerField()
     leavetype = models.CharField(choices=LEAVE_TYPE, max_length=25, default=SICK, null=True, blank=False)
     reason = models.CharField(verbose_name=_('Reason for Leave'), max_length=255, help_text='add additional information for leave', null=True, blank=True)
-    status = models.CharField(choices=STATUS,max_length=15, default='Pending') # pending, approved, rejected, cancelled
-    is_approved = models.BooleanField(default=False) # hide
+    status = models.CharField(choices=STATUS,max_length=15, default='Pending') 
+    is_approved = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     created = models.DateTimeField(auto_now=False, auto_now_add=True)
 

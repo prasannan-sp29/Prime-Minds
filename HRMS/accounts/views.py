@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate,login
 from accounts.models import userdetials
 from django.http import HttpResponse
 from employee.models import Employee_data
-
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -63,6 +63,7 @@ def index(request):
 #         # form1 = department_details()
 #     return render(request,'register.html',{'form':form})
 
+@login_required(login_url='index')
 def profile(request):
     data = Employee_data.objects.get(user=request.user)
     return render(request,'profile.html',{'data':data})

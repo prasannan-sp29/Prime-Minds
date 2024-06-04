@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from accounts.models import userdetials
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from employee.models import Employee_data, Payroll, Attendance, Leave
 from employee.forms import *
 from django.http import HttpResponse, JsonResponse
@@ -18,21 +19,29 @@ import numpy as np
 def get_leave_duration(start, end):
     return (end - start).days
 
-
+@login_required(login_url='index')
 def dashboard(request):
     return render(request, "admin_dashboard.html")
 
+@login_required(login_url='index')
 def employeeDetails(request):
     data = Employee_data.objects.all()
     return render(request, "employee_details.html", {"data": data})
 
+@login_required(login_url='index')
 def know_more(request, pk):
     data = Employee_data.objects.get(id=pk)
     return render(request, "know_more.html", {"data": data})
 
+@login_required(login_url='index')
+def know_mores(request, pk):
+    data = Employee_data.objects.get(id=pk)
+    return render(request, "know_mores.html", {"data": data})
+
 def remove_space(inp_str):
     return inp_str.replace(" ", "").lower()
 
+@login_required(login_url='index')
 def add_employee(request):
     if request.method == "POST":
         form = add_employee_form(request.POST, request.FILES)
@@ -56,6 +65,7 @@ def add_employee(request):
         form = add_employee_form()
     return render(request, "add_employee.html", {"form": form})
 
+@login_required(login_url='index')
 def edit_profile(request, pk):
     data = Employee_data.objects.get(id=pk)
     if request.method == "POST":
@@ -73,6 +83,7 @@ def get_employee(request):
 def get_employee_id(request):
     return get_employee(request).id
 
+@login_required(login_url='index')
 def generate_payslip(request):
     pay = Payroll.objects.all().order_by('-id')
     employees = Employee_data.objects.all()
@@ -86,11 +97,12 @@ def generate_payslip(request):
             if employee_id:
                 employee = Employee_data.objects.get(id=employee_id)
                 generate_single_payslip(employee, MONTH)
+                messages.success(request, f"Payroll Generated Successfully for {employee.name}.")
             else:
                 for i in employees:
                     generate_single_payslip(i, MONTH)
+                messages.success(request, "Payroll Generated Successfully for all Employees.")
             
-            messages.success(request, "Payroll Generated Successfully.")
             return redirect('generate_payslip')
     else:
         form = PayrollForm()
@@ -124,6 +136,7 @@ def generate_single_payslip(employee, month):
         total_gross=Total_gross,
     )
 
+@login_required(login_url='index')
 def generate_payslip_pdf(request, pk):
     slip = get_object_or_404(Payroll, id=pk)
     end_of_month = slip.get_end_of_month()
@@ -133,8 +146,9 @@ def generate_payslip_pdf(request, pk):
     # Convert to datetime objects
     start_date = datetime.combine(start, datetime.min.time())
     end_date = datetime.combine(end_of_month, datetime.min.time())
-    total_days = (end_date - start_date).days
-    print(total_days + 1)
+    total_days = ((end_date - start_date).days) + 1
+    print(total_days)
+    # print(total_days)
     # Calculate the number of business days
     days = np.busday_count(start_date.date(), end_date.date())
 
@@ -190,6 +204,7 @@ def attendacne_view(request):
 
     return render(request, "attendance.html")
 
+@login_required(login_url='index')
 def deleteEmployee(request, pk):
     res = get_object_or_404(Employee_data, id=pk)
     del_user = get_object_or_404(User, id=pk)
@@ -199,6 +214,7 @@ def deleteEmployee(request, pk):
     res.delete()
     return redirect("employee_details")
 
+@login_required(login_url='index')
 def checkAttendance(request, pk):
     attend = Attendance.objects.filter(user_id=pk)
     date = request.GET.get("date")
@@ -209,15 +225,18 @@ def checkAttendance(request, pk):
 
     return render(request, "checkAttendance.html", {"attend": attend})
 
+@login_required(login_url='index')
 def paylistView(request, pk):
     pay = Payroll.objects.filter(employee_id=pk)
     return render(request, "paylistView.html", {"pay": pay})
 
+@login_required(login_url='index')
 def ApplyLeave(request, pk):
+    data = Employee_data.objects.get(id=pk)
     res = Leave.objects.filter(user_id=pk)
-    return render(request, "apply_leave.html", {"res": res})
+    return render(request, "apply_leave.html", {"res": res,'data':data})
 
-
+@login_required(login_url='index')
 def RequestLeave(request):
     if request.method == 'POST':
         form = LeaveForm(request.POST)
@@ -233,6 +252,7 @@ def RequestLeave(request):
         form = LeaveForm()
     return render(request, 'RequestLeave.html', {'form': form})
 
+@login_required(login_url='index')
 def edit_leave(request,pk):
     if request.method == 'POST':
         res = Leave.objects.get(id=pk)
@@ -250,11 +270,13 @@ def edit_leave(request,pk):
         form = LeaveForm(instance=res)
     return render(request,'edit_leave.html',{'form':form})
 
+@login_required(login_url='index')
 def delete_leave(request,pk):
     res = Leave.objects.get(id=pk)
     res.delete()
     return redirect('applyLeave', pk=get_employee_id(request))
 
+@login_required(login_url='index')
 def all_attendance_view(request):
     attend = Attendance.objects.all()
     date = request.GET.get("date")
@@ -265,14 +287,17 @@ def all_attendance_view(request):
 
     return render(request, "all_attendance_view.html", {"attend": attend})
 
+@login_required(login_url='index')
 def employee_logout(request):
     logout(request)
     return redirect('index')
 
+@login_required(login_url='index')
 def viewLeaveRequest(request):
     res = Leave.objects.all()
     return render(request, 'viewLeaveRequest.html', {'res': res})
 
+@login_required(login_url='index')
 def ViewLeaveDetails(request, pk):
     leave = get_object_or_404(Leave, id=pk)
     if request.method == 'POST':
@@ -285,26 +310,32 @@ def ViewLeaveDetails(request, pk):
 
     return render(request, 'ViewLeaveDetails.html', {'leave': leave, 'form': form})
 
+@login_required(login_url='index')
 def pay(request):
     data = Employee_data.objects.get(user=request.user)
     return render(request,'pay.html',{'data':data})
 
+@login_required(login_url='index')
 def approvedLeave(request):
     res = Leave.objects.all()
     return render(request, 'approved.html', {'res': res})
 
+@login_required(login_url='index')
 def rejectedLeave(request):
     res = Leave.objects.all()
     return render(request, 'rejected.html', {'res': res})
 
+@login_required(login_url='index')
 def contacts_view(request):
     contacts = Employee_data.objects.all()
     return render(request, 'contacts.html', {'contacts': contacts})
 
+@login_required(login_url='index')
 def AdminLogOut(request):
     logout(request)
     return redirect('index')
 
+@login_required(login_url='index')
 def delete_payslip(request,pk):
     res = Payroll.objects.get(id=pk)
     res.delete()

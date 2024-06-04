@@ -141,10 +141,9 @@
 
     <nav class="navbar">
         <div class="navbar-left">
-            <a href="#" class="brand">Prime Minds Consulting Pvt Ltd.</a>
+            <a href="{% url 'dashboard' %}" class="brand">Prime Minds Consulting Pvt Ltd.</a>
         </div>
         <div class="navbar-right">
-            <a href="{% url 'dashboard' %}" class="nav-button">Home</a>
             <a href="{% url 'employee_details' %}" class="nav-button">Employee</a>
             <a href="{% url 'addDepartment' %}" class="nav-button">Department</a>
             <a href="{% url 'allAttendanceView' %}" class="nav-button">Attendance</a>
