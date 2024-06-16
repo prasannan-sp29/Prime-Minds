@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("{% static 'images/dl.jpg' %}") no-repeat center center fixed;
+            background-color: #f4f4f4;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin-top: 20px;
+            background: #ffffffcc;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+        }
+
+        .home-button a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .home-button a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button class="home-button"><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Home</a></button>
+
+    <div class="container">
+        <a href="{% url 'add_dealer1' %}" class="btn">Add Dealer</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dealer Name</th>
+                    <th>Phone Number</th>
+                    <th>Mail ID</th>
+                    <th>Address</th>
+                    <th>Tablet Name</th>
+                    <th>Price</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in d %}
+                {% for tablet in i.tablet_set.all %}
+                <tr>
+                    {% if forloop.first %}
+                    <td rowspan="{{ i.tablet_set.count }}"><a href="{% url 'edit_dealer' pk=i.id %}">{{ i.dealer_name }}</a></td>
+                    <td rowspan="{{ i.tablet_set.count }}">{{ i.phone }}</td>
+                    <td rowspan="{{ i.tablet_set.count }}">{{ i.mail_id }}</td>
+                    <td rowspan="{{ i.tablet_set.count }}">{{ i.address }}</td>
+                    {% endif %}
+                    <td>{{ tablet.tablet_name }}</td>
+                    <td>{{ tablet.price }}</td>
+                    
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

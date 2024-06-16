@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Sale</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://unpkg.com/htmx.org@1.5.0"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("{% static 'images/sn.jpeg' %}") no-repeat center center fixed;
+            background-color: #f4f4f4;
+            padding: 20px;
+            background-size: cover;
+        }
+
+        .container {
+            background: rgba(241, 246, 245, 0.726);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            width: 700px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .hidden { display: none; }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        h1 {
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .add-tablet-btn {
+            align-self: flex-start;
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+        }
+
+        .home-button a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .home-button a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+    <button class="home-button"><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Home</a></button>
+
+    <div class="container">
+        <h1>New Sale</h1>
+        <form action="" method="POST" id="sa">
+            {% csrf_token %}
+            {{ s_form.as_p }}
+        </form>
+
+        <div id="sales-forms"></div>
+
+        <div class="button-group">
+            <button type="button" class="btn btn-success add-tablet-btn"
+            hx-get="{% url 'create-sale' %}"
+            hx-target="#sales-forms"
+            hx-swap="beforeend">+ Add Tablet</button>
+
+            <button id="sale-button" type="button" class="hidden btn btn-primary" onclick="activateSubmitAll()">Sale Order</button>
+            <button id="delivery-button" type="button" class="hidden btn btn-primary" onclick="activateSubmitAll()">Print Delivery</button>
+            <button type="button" class="btn btn-primary hidden" id="submit-all" onclick="proceed()">Submit All</button>
+        </div>
+    </div>
+    <script>
+        function proceed() {
+            document.getElementById('sa').submit();
+        }
+
+        function updateButton() {
+            const orderType = document.getElementById('id_confirmed').value;
+            const saleButton = document.getElementById('sale-button');
+            const deliveryButton = document.getElementById('delivery-button');
+
+            if (orderType === 'SALE COUNTER') {
+                saleButton.classList.remove('hidden');
+                deliveryButton.classList.add('hidden');
+            } else if (orderType === 'SALE DELIVERY') {
+                saleButton.classList.add('hidden');
+                deliveryButton.classList.remove('hidden');
+            } else {
+                saleButton.classList.add('hidden');
+                deliveryButton.classList.add('hidden');
+            }
+        }
+
+        function activateSubmitAll() {
+            const submitAllButton = document.getElementById('submit-all');
+            submitAllButton.click()
+            // submitAllButton.classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('id_confirmed').addEventListener('change', updateButton);
+            updateButton(); // Initialize button visibility on page load
+        });
+    </script>
+</body>
+</html>

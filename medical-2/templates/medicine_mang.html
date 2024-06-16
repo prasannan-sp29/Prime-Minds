@@ -1,0 +1,224 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'add_medicine' %}" class="btn">Add Medicine</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Medicine name</th>
+                    <th>Medicine code</th>
+                    <th>dealer name</th>
+                    <th>price</th>
+                    <th>stock</th>
+                    <th>company name</th>
+                    <th>description</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                {% for medicine in med %}
+                    <tr>
+                        <td><a href="{% url 'edit_medicine' pk=medicine.id %}">{{ medicine.medicine_name }}</a></td>
+                        <td>{{ medicine.medicine_code }}</td>
+                        <td>{{ medicine.dealer_name }}</td>
+                        <td>{{ medicine.price }}</td>
+                        <td>{{ medicine.stock }}</td>
+                        <td>{{ medicine.company_name }}</td>
+                        <td>{{ medicine.description }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html> -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("{% static 'images/m2.jpeg' %}") no-repeat center center fixed;
+            background-color: #f4f4f4;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin-top: 20px;
+            background: #8aabbdd5;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+        }
+
+        .home-button a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .home-button a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button class="home-button"><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Home</a></button>
+
+    <div class="container">
+        <a href="{% url 'add_medicine' %}" class="btn">Add Medicine</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Medicine name</th>
+                    <th>Medicine code</th>
+                    <th>Dealer name</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Company name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medicine in med %}
+                    <tr>
+                        <td><a href="{% url 'edit_medicine' pk=medicine.id %}">{{ medicine.medicine_name }}</a></td>
+                        <td>{{ medicine.medicine_code }}</td>
+                        <td>{{ medicine.dealer_name }}</td>
+                        <td>{{ medicine.price }}</td>
+                        <td>{{ medicine.stock }}</td>
+                        <td>{{ medicine.company_name }}</td>
+                        <td>{{ medicine.description }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Delivery Management</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        table {
+            margin-top: 20px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-footer {
+            border-top: none;
+        }
+
+        .btn-link a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Delivery Management</h1>
+
+    <!-- <button class="btn btn-secondary mb-3"><a href="{% url 'confirm' %}" class="text-white">Confirm sale order</a></button> -->
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Order Id</th>
+                <th>Customer Name</th>
+                <th>Delivery Address</th>
+                <th>Item Ordered</th>
+                <th>Quantity</th>
+                <th>Delivery Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in dlry %}
+            {% for item in i.sale.items.all %}
+            {% if i.sale.confirmed %}
+            <tr>
+                {% if forloop.first %}
+                <td rowspan="{{ i.sale.items.count }}"><a href="{% url 'delivery_report' pk=i.id %}">{{i.order_number}}</a></td>
+                <td rowspan="{{ i.sale.items.count }}">{{ i.sale.customer }}</td>
+                <td rowspan="{{ i.sale.items.count }}">{{ i.sale.customer.address }}, {{ i.sale.customer.city }}, {{ i.sale.customer.state }}, {{ i.sale.customer.pincode }}</td>
+                {% endif %}
+                <td >{{ item.medicine }}</td>
+                <td >{{ item.quantity }}</td>
+                {% if forloop.first %}
+                <td rowspan="{{ i.sale.items.count }}">{{ i.status }}</td>
+                <td rowspan="{{ i.sale.items.count }}">
+                    <button class="btn btn-secondary" onclick="openModal('{{ i.id }}', '{{ i.status }}')">Change Status</button>
+                </td>
+                {% endif %}
+            </tr>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Delivery Status</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="statusForm" method="post" action="{% url 'change_status' %}">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" name="delivery_id" id="deliveryId">
+                        <div class="form-group">
+                            <label for="status">Select New Status:</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="PENDING">Pending</option>
+                                <option value="IN_PROGRESS">In Progress</option>
+                                <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                                <option value="DELIVERED">Delivered</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Update Status</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function openModal(id, status) {
+            $('#deliveryId').val(id);
+            $('#status').val(status);
+            $('#myModal').modal('show');
+        }
+    </script>
+</body>
+
+</html>

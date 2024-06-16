@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Purchase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h2 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        form input[type="text"],
+        form input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        form button {
+            width: 100%;
+            padding: 10px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background: #218838;
+        }
+
+        .add-tablet-btn {
+            width: auto;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>New Purchase</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ purchase_form.as_p }}
+            {{ formset.management_form }}
+            <table id="tablet-formset">
+                <thead>
+                    <tr>
+                        <th>Tablet</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for form in formset %}
+                        <tr>
+                            {% for field in form %}
+                                <td>{{ field }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    <tr class="empty-form" style="display: none;">
+                        {% for field in formset.empty_form %}
+                            <td>{{ field }}</td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="add-tablet-btn" onclick="addTabletForm()">Add Tablet</button>
+            <button type="submit">Purchase</button>
+        </form>
+    </div>
+
+    <script>
+        function addTabletForm() {
+            var formset = document.getElementById('tablet-formset').querySelector('tbody');
+            var totalForms = parseInt(document.getElementById('id_form-TOTAL_FORMS').value);
+            var newForm = document.querySelector('.empty-form').cloneNode(true);
+            newForm.style.display = '';
+            newForm.classList.remove('empty-form');
+            var regex = new RegExp('__prefix__', 'g');
+            newForm.innerHTML = newForm.innerHTML.replace(regex, totalForms);
+            formset.appendChild(newForm);
+            document.getElementById('id_form-TOTAL_FORMS').value = totalForms + 1;
+        }
+    </script>
+</body>
+</html>

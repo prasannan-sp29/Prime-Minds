@@ -1,6 +1,8 @@
 from django import forms
 from employee.models import *
 import datetime
+from django.core.exceptions import ValidationError
+import re
 
 class add_employee_form(forms.ModelForm):
     class Meta:
@@ -12,6 +14,32 @@ class add_employee_form(forms.ModelForm):
             'date_of_join': forms.DateInput(attrs={'type': 'date'}),
         }
         
+        
+    def clean_aadhar_no(self):
+        aadhar_no = str(self.changed_data.get('aadhar_no'))
+        if not re.fullmatch(r'\d{12}',aadhar_no):
+            raise ValidationError('Aadhar number must be Exactly 12 digits.')
+        return aadhar_no
+
+    def clean_phone_number(self):
+        phone_number = str(self.cleaned_data.get('phone_number'))
+        if not re.fullmatch(r'\d{10}', phone_number):
+            raise ValidationError("Phone number must be exactly 10 digits.")
+        return phone_number
+
+    def clean_alternate_phone_number(self):
+        alternate_phone_number = str(self.cleaned_data.get('alternate_phone_number'))
+        if alternate_phone_number and not re.fullmatch(r'\d{10}', alternate_phone_number):
+            raise ValidationError("Alternate phone number must be exactly 10 digits.")
+        return alternate_phone_number
+
+    def clean_emergency_contact_number(self):
+        emergency_contact_number = str(self.cleaned_data.get('emergency_contact_number'))
+        if not re.fullmatch(r'\d{10}', emergency_contact_number):
+            raise ValidationError("Emergency contact number must be exactly 10 digits.")
+        return emergency_contact_number
+
+
 class PayrollForm(forms.ModelForm):
     month = forms.DateField(
         widget=forms.DateInput(format='%Y-%m', attrs={'type': 'month'}),

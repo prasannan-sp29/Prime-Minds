@@ -19,9 +19,21 @@ urlpatterns = [
     path('add_medicine/',views.add_medicine, name='add_medicine'),
     path('sale_mang/',views.sale_management, name='sale_mang'),
     path('new_sale',views.new_sale, name='new_sale'),
+    path('get_customer_image/<int:customer_id>/', views.get_customer_image, name='get_customer_image'),
+
+    path('index1/',views.index1,name='index1'),
+    path('create-form/',views.create_contace,name='create-contact'),
+
+    path('add_dealer1',views.add_dealer1,name='add_dealer1'),
+    path('dealer-form/',views.create_dealer,name='create-dealer'),   
+
+    path('create-sale/',views.create_sale,name='create-sale'), 
+    path('create-purchase/',views.add_purchase,name='create-purchase'),    
+    
+    
     path('purchase_mang',views.purchase_management,name='purchase_mang'),
     path('new_purchase',views.create_purchase,name='new_purchase'),
-
+    path('index/',views.index,name='index'),
     path('edit_dealer/<int:pk>/',views.edit_dealer,name='edit_dealer'),
     path('delete_dealer/<int:pk>/',views.delete_dealer,name='delete_dealer'),
 
@@ -51,5 +63,7 @@ urlpatterns = [
     path('view_lead/',views.view_lead,name='view_lead'),
     path('view_opportunity/',views.view_opportunity,name='view_opportunity'),
     path('view_sale_order/',views.view_sale_order,name='view_sale_order'),
+    path('fetch/', views.fetch_and_store_email_data, name='fetch'),
+    path('admin_logout/',views.admin_logout,name='admin_logout'),
 
 ]

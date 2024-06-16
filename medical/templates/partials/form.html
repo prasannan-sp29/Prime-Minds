@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+    
+        <form action="" hx-post="{% url 'create-dealer' %}"
+        hx-on="htmx:afterRequest: this.remove()"
+        hx-trigger="click from:#submit-all">
+            <div class="row">
+                <div class="col-4 col-md-3">
+                    <label for="{{form.tablet_name.id_for_label}}" class="form-label">{{form.tablet_name.label}}</label>
+                    {{form.tablet_name}}
+                </div>
+                <div class="col-4 col-md-3">
+                    <label for="{{form.price.id_for_label}}" class="form-label">{{form.price.label}}</label>
+                    {{form.price}}
+                </div>
+                <!-- <div class="col-3 align-self-end">
+                    <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                </div> -->
+            </div>
+        </form>
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from shopapp.models import *
+from django.core.exceptions import ValidationError
+import re
 
 class userForm(forms.ModelForm):
     confirm_password = forms.CharField(widget=forms.PasswordInput)
@@ -32,45 +34,101 @@ class EmployeeForm(forms.ModelForm):
         model = Employee
         fields = ['profile_picture','emp_id','first_name','last_name','mail_id','phone_number','address','salary']
 
+    def clean_phone_number(self):
+        phone_number = str(self.cleaned_data.get('phone_number'))
+        if not re.fullmatch(r'\d{10}', phone_number):
+            raise ValidationError("Phone number must be exactly 10 digits.")
+        return int(phone_number)
+
+
 class CustomerForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         model = Customer
         fields = ['first_name','last_name','username','password','address','city','state','pincode','phone_number','mail_id','profile_picture']
+    
+    def clean_phone_number(self):
+        phone_number = str(self.cleaned_data.get('phone_number'))
+        if not re.fullmatch(r'\d{10}', phone_number):
+            raise ValidationError("Phone number must be exactly 10 digits.")
+        return int(phone_number)
 
 class CustomerForm1(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['first_name','last_name','address','city','state','pincode','phone_number','mail_id','profile_picture']
 
+    def clean_phone_number(self):
+        phone_number = str(self.cleaned_data.get('phone_number'))
+        if not re.fullmatch(r'\d{10}', phone_number):
+            raise ValidationError("Phone number must be exactly 10 digits.")
+        return int(phone_number)
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name','phone']
+
 
 class MedicineForm(forms.ModelForm):
     class Meta:
         model = Medicine
-        fields = '__all__'
+        fields = ['medicine_name','medicine_code','dealer_name','stock','company_name','description']
 
 class DealerForm(forms.ModelForm):
     class Meta:
         model = Dealer
-        fields = '__all__'
+        fields = ["dealer_name",'address',"phone","mail_id"]
 
-# class CustomerForm(forms.ModelForm):
-#     class Meta:
-#         model = Customer
-#         fields = ['name', 'phone_number']
+    def clean_phone(self):
+        phone_number = str(self.cleaned_data.get('phone'))
+        if not re.fullmatch(r'\d{10}', phone_number):
+            raise ValidationError("Phone number must be exactly 10 digits.")
+        return int(phone_number)
+
+class TabletForm(forms.ModelForm):
+    class Meta:
+        model = Tablet
+        fields = ['tablet_name','price']
 
 class SaleForm(forms.ModelForm):
     class Meta:
         model = Sale
-        fields = ['customer', 'medicine','phone', 'price', 'quantity', 'discount', 'tax']
+        fields = ['customer','phone', 'discount', 'tax','confirmed']
+        widgets = {
+            'customer': forms.Select(attrs={'onchange': 'updateCustomerImage()'}),
+        }
+    
+    def clean_phone(self):
+        phone_number = str(self.cleaned_data.get('phone'))
+        if not re.fullmatch(r'\d{10}', phone_number):
+            raise ValidationError("Phone number must be exactly 10 digits.")
+        return int(phone_number)
+
+class SaleItemForm(forms.ModelForm):
+    class Meta:
+        model = SaleItem
+        fields = ['medicine','price','quantity']
 
 class PurchaseForm(forms.ModelForm):
     class Meta:
         model = Purchase
-        fields = ['tablet_name', 'customer','phone', 'price', 'quantity']
+        fields = ['dealer','phone']
+
+    def clean_phone(self):
+        phone_number = str(self.cleaned_data.get('phone'))
+        if not re.fullmatch(r'\d{10}', phone_number):
+            raise ValidationError("Phone number must be exactly 10 digits.")
+        return int(phone_number)
+
+class PurchaseItemForm(forms.ModelForm):
+    # tablet_name = forms.CharField()
+    class Meta:
+        model = PurchaseItem
+        fields = ['tablet_name','price','quantity']   
         widgets = {
-            'price': forms.NumberInput(attrs={'step': '0.01'}),
-        }
+            'medicine': forms.Select(attrs={'id': 'id_medicine'}),
+        }    
 
 class LeadForm(forms.ModelForm):
     class Meta:
@@ -81,6 +139,8 @@ class OpportunityForm(forms.ModelForm):
     class Meta:
         model = Opportunity
         fields = '__all__'
+    
+    
 
 class SalesOrderForm(forms.ModelForm):
     class Meta:

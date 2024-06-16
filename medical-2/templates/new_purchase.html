@@ -1,0 +1,189 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/htmx.org@1.5.0"></script>
+
+</head>
+<body hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+    <h1>New Purchase</h1>
+    <form action="" method="POST" id="sa">
+        {% csrf_token %}
+        {{form.as_p}}
+    </form>
+
+    <div id="purchase-forms">
+        {% include 'partials/purchase_form.html' %}
+    </div>
+<div class="my-4">
+    <button type="button" class="btn btn-success me-2"
+    hx-get="{% url 'create-purchase' %}"
+    hx-target="#purchase-forms"
+    hx-swap="beforeend">+ add tablet</button>
+
+    <button type="button" class="btn btn-primary" onclick="proceed()" id="submit-all">Submit all</button>
+</div>
+<script>
+    function proceed(){
+        document.getElementById('sa').submit()
+    }
+</script>
+</body>
+</html> -->
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Purchase</title>
+    <script src="https://unpkg.com/htmx.org@1.5.0"></script>
+    <style>
+        body {
+            background: url("{% static 'images/pur.jpeg' %}") no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffffcc; /* Slightly transparent white */
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        textarea,
+        select {
+            padding: 8px;
+            margin-bottom: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        select {
+            appearance: none;
+            background: url("data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' d='M19 9l-7 7-7-7' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            background-size: 16px auto;
+        }
+
+        .form-actions {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            background-color: #007bff;
+            color: #fff;
+            transition: background-color 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .my-4 {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .home-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: transparent;
+            border: none;
+            font-size: 20px;
+        }
+
+        .home-button a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .home-button a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+    <button class="home-button"><a href="{% url 'admin_dashboard' %}"><i class="fas fa-home"></i> Home</a></button>
+
+    <div class="container">
+        <h1>New Purchase</h1>
+        <form action="" method="POST" id="sa">
+            {% csrf_token %}
+            {{ form.as_p }}
+        </form>
+
+        <div id="purchase-forms">
+            {% include 'partials/purchase_form.html' %}
+        </div>
+        <div class="form-actions my-4">
+            <button type="button" class="btn btn-success"
+            hx-get="{% url 'create-purchase' %}"
+            hx-target="#purchase-forms"
+            hx-swap="beforeend">+ Add Tablet</button>
+
+            <button type="button" class="btn btn-primary" onclick="proceed()" id="submit-all">Submit All</button>
+        </div>
+    </div>
+    <script>
+        function proceed() {
+            document.getElementById('sa').submit();
+        }
+    </script>
+</body>
+</html>
+
+
+

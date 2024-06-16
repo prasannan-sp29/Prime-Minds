@@ -190,15 +190,15 @@ def attendacne_view(request):
 
         attendance, created = Attendance.objects.get_or_create(user=user, date=today)
 
-        if action == "check-in" and attendance.check_in_time is None:
+        if action == "log-in" and attendance.check_in_time is None:
             attendance.check_in_time = timezone.now().astimezone(ist).time()
             attendance.save()
-            return JsonResponse({"message": "Check-in successful."}, safe=False)
+            return JsonResponse({"message": "Log-in successful."}, safe=False)
 
-        elif action == "check-out" and attendance.check_out_time is None:
+        elif action == "log-out" and attendance.check_out_time is None:
             attendance.check_out_time = timezone.now().astimezone(ist).time()
             attendance.save()
-            return JsonResponse({"message": "Check-out successful."}, safe=False)
+            return JsonResponse({"message": "Log-out successful."}, safe=False)
 
         return JsonResponse({"message": "Action already recorded or invalid."}, safe=False)
 
@@ -280,7 +280,6 @@ def delete_leave(request,pk):
 def all_attendance_view(request):
     attend = Attendance.objects.all()
     date = request.GET.get("date")
-
     if date:
         date = parse_date(date)
         attend = attend.filter(date=date)
@@ -340,4 +339,4 @@ def delete_payslip(request,pk):
     res = Payroll.objects.get(id=pk)
     res.delete()
     return redirect('generate_payslip')
-
+    

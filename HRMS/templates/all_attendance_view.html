@@ -11,7 +11,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url("{% static 'images/attendance.jpg' %}");
+            background-image: url("{% static 'images/attendance3.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
@@ -21,7 +21,7 @@
 
         .container {
             max-width: 70%;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255, 0.8); /* Adjusted opacity */
             border-radius: 8px;
             padding: 30px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -35,10 +35,14 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
+            background-color: rgba(255, 255, 255, 0.8); /* Background for better visibility */
+            padding: 10px;
+            border-radius: 4px;
         }
 
         .form-label {
             font-weight: bold;
+            color: #333;
         }
 
         .btn-primary {
@@ -55,6 +59,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.9); /* Background for better visibility */
         }
 
         th,
@@ -62,6 +67,7 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
+            color: #333; /* Darker text color */
         }
 
         th {
@@ -163,8 +169,8 @@
                 <tr>
                     <th>Name</th>
                     <th>Date</th>
-                    <th>Check-In</th>
-                    <th>Check-Out</th>
+                    <th>Log-In Time</th>
+                    <th>Log-Out Time</th>
                 </tr>
             </thead>
             <tbody>

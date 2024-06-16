@@ -10,13 +10,13 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url("{% static 'images/emp.jpeg' %}");
+            background-image: url("{% static 'images/add_emp.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* height: 100vh; */
             margin: 0;
         }
         
@@ -45,7 +45,7 @@
             color: #555;
         }
         
-        input[type=text], input[type=password], input[type=email], input[type=date], select {
+        input[type=text], input[type=password], input[type=email], input[type=date], select, textarea {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -54,7 +54,16 @@
             box-sizing: border-box;
             font-size: 16px;
         }
+
+        .large-width {
+            width: 120%;
+        }
         
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+
         button {
             background-color: #007bff;
             color: white;
@@ -71,33 +80,6 @@
         button:hover {
             background-color: #0056b3;
         }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .custom-file-input {
-            display: none;
-        }
-
-        .custom-file-label {
-            display: inline-block;
-            padding: 6px 12px;
-            cursor: pointer;
-            background-color: #e9ecef;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-
-        .form-control-file {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-            background-color: #e9ecef;
-        }
     </style>
 </head>
 <body>
@@ -106,90 +88,93 @@
         <h2>Add Employee</h2>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="form-group">
-                <label for="profile_picture">Profile Picture</label>
-                {{ form.profile_picture }}
-            </div>
-            <div class="form-group">
-                <label for="name">Name</label>
-                {{ form.name }}
-            </div>
-            <div class="form-group">
-                <label for="emp_code">Emp Code</label>
-                {{ form.emp_code }}
-            </div>
-            <div class="form-group">
-                <label for="DOB">Date of Birth</label>
-                {{ form.DOB }}
-            </div>
-            <div class="form-group">
-                <label for="gender">Gender</label>
-                {{ form.gender }}
-            </div>
-            <div class="form-group">
-                <label for="date_of_join">Date of Join</label>
-                {{ form.date_of_join }}
-            </div>
-            <div class="form-group">
-                <label for="permenant_address">Permenant Address</label>
-                {{ form.permenant_address }}
-            </div>
-            <div class="form-group">
-                <label for="current_address">Current Address</label>
-                {{ form.current_address }}
-            </div>
-            <div class="form-group">
-                <label for="phone_number">Phone Number</label>
+            
+            <label for="profile_picture">Profile Picture</label>
+            {{ form.profile_picture }}
+            <div class="error">{{ form.profile_picture.errors }}</div>
+            
+            <label for="name">Name</label>
+            {{ form.name }}
+            <div class="error">{{ form.name.errors }}</div>
+            
+            <label for="emp_code">Emp Code</label>
+            {{ form.emp_code }}
+            <div class="error">{{ form.emp_code.errors }}</div>
+            
+            <label for="DOB">Date of Birth</label>
+            {{ form.DOB }}
+            <div class="error">{{ form.DOB.errors }}</div>
+            
+            <label for="gender">Gender</label>
+            {{ form.gender }}
+            <div class="error">{{ form.gender.errors }}</div>
+            
+            <label for="date_of_join">Date of Join</label>
+            {{ form.date_of_join }}
+            <div class="error">{{ form.date_of_join.errors }}</div>
+            
+            <label for="permenant_address">Permenant Address</label>
+            {{ form.permenant_address }}
+            <div class="error">{{ form.permenant_address.errors }}</div>
+            
+            <label for="current_address">Current Address</label>
+            {{ form.current_address }}
+            <div class="error">{{ form.current_address.errors }}</div>
+            
+            <label for="phone_number">Phone Number</label>
+            <div class="large-width">
                 {{ form.phone_number }}
             </div>
-            <div class="form-group">
-                <label for="alternate_phone_number">Alternate Phone Number</label>
-                {{ form.alternate_phone_number }}
-            </div>
-            <div class="form-group">
-                <label for="emergency_contact_name">Emergency Contact Name</label>
-                {{ form.emergency_contact_name }}
-            </div>
-            <div class="form-group">
-                <label for="emergency_contact_relationship">Emergency Contact Relationship</label>
-                {{ form.emergency_contact_relationship }}
-            </div>
-            <div class="form-group">
-                <label for="emergency_contact_number">Emergency Contact Number</label>
-                {{ form.emergency_contact_number }}
-            </div>
-            <div class="form-group">
-                <label for="mail_id">Mail ID</label>
-                {{ form.mail_id }}
-            </div>
-            <div class="form-group">
-                <label for="aadhar_no">Aadhar Number</label>
-                {{ form.aadhar_no }}
-            </div>
-            <div class="form-group">
-                <label for="pan_number">PAN Number</label>
-                {{ form.pan_number }}
-            </div>
-            <div class="form-group">
-                <label for="department">Department</label>
-                {{ form.department }}
-            </div>
-            <div class="form-group">
-                <label for="bank_name">Bank Name</label>
-                {{ form.bank_name }}
-            </div>
-            <div class="form-group">
-                <label for="bank_acc_number">Account Number</label>
-                {{ form.bank_acc_number }}
-            </div>
-            <div class="form-group">
-                <label for="ifsc_code">IFSC CODE</label>
-                {{ form.ifsc_code }}
-            </div>
-            <div class="form-group">
-                <label for="salary">CTC</label>
-                {{ form.salary }}
-            </div>
+            <div class="error">{{ form.phone_number.errors }}</div>
+            
+            <label for="alternate_phone_number">Alternate Phone Number</label>
+            {{ form.alternate_phone_number }}
+            <div class="error">{{ form.alternate_phone_number.errors }}</div>
+            
+            <label for="emergency_contact_name">Emergency Contact Name</label>
+            {{ form.emergency_contact_name }}
+            <div class="error">{{ form.emergency_contact_name.errors }}</div>
+            
+            <label for="emergency_contact_relationship">Emergency Contact Relationship</label>
+            {{ form.emergency_contact_relationship }}
+            <div class="error">{{ form.emergency_contact_relationship.errors }}</div>
+            
+            <label for="emergency_contact_number">Emergency Contact Number</label>
+            {{ form.emergency_contact_number }}
+            <div class="error">{{ form.emergency_contact_number.errors }}</div>
+            
+            <label for="mail_id">Mail ID</label>
+            {{ form.mail_id }}
+            <div class="error">{{ form.mail_id.errors }}</div>
+            
+            <label for="aadhar_no">Aadhar Number</label>
+            {{ form.aadhar_no }}
+            <div class="error">{{ form.aadhar_no.errors }}</div>
+            
+            <label for="pan_number">PAN Number</label>
+            {{ form.pan_number }}
+            <div class="error">{{ form.pan_number.errors }}</div>
+            
+            <label for="department">Department</label>
+            {{ form.department }}
+            <div class="error">{{ form.department.errors }}</div>
+            
+            <label for="bank_name">Bank Name</label>
+            {{ form.bank_name }}
+            <div class="error">{{ form.bank_name.errors }}</div>
+            
+            <label for="bank_acc_number">Account Number</label>
+            {{ form.bank_acc_number }}
+            <div class="error">{{ form.bank_acc_number.errors }}</div>
+            
+            <label for="ifsc_code">IFSC CODE</label>
+            {{ form.ifsc_code }}
+            <div class="error">{{ form.ifsc_code.errors }}</div>
+            
+            <label for="salary">CTC</label>
+            {{ form.salary }}
+            <div class="error">{{ form.salary.errors }}</div>
+            
             <button type="submit">Add Employee</button>
         </form>
     </div>

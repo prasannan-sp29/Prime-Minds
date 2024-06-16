@@ -10,13 +10,15 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url("{% static 'images/leave.jpg' %}");
+            background-image: url("{% static 'images/at1.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
+            background-attachment: fixed;
             margin-bottom: 60px;
         }
         .container {
             max-width: 700px;
+            margin-top: 100px;
             background-color: rgba(255, 255, 255, 0.8);
             padding: 20px;
             border-radius: 8px;
@@ -101,8 +103,20 @@
                     <td>{{leave.enddate}}</td>
                     <td>{{leave.days}}</td>
                     <td><span class="{% if leave.status == 'Approved' %} status-approved {% elif leave.status == 'Pending' %}status-pending{% elif leave.status == 'Rejected' %}status-rejected{% endif %}">{{ leave.status }}</span></td>
-                    <td><a href="{% url 'edit_leave' pk=leave.id %}">Edit</a></td>
-                    <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ leave.id }}">Delete</button></td>
+                    <td>
+                        {% if leave.status == 'Pending' %}
+                            <a href="{% url 'edit_leave' pk=leave.id %}">Edit</a>
+                        {% else %}
+                            <span class="text-muted">Edit</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if leave.status == 'Pending' %}
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ leave.id }}">Delete</button>
+                        {% else %}
+                            <span class="text-muted">Delete</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

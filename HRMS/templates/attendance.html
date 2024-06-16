@@ -12,7 +12,7 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url("{% static 'images/OIP (6).jpg' %}");
+            background-image: url("{% static 'images/attendance.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
             padding-top: 60px;
@@ -54,6 +54,11 @@
             font-weight: bold;
         }
 
+        .mt-4{
+            margin-left: 20%;
+            margin-top: 50px;
+        }
+
         @media (min-width: 768px) {
             .btn-container {
                 display: flex;
@@ -92,8 +97,8 @@
                 </div>
             </div>
             <div class="btn-container">
-                <button type="button" class="btn btn-success" onclick="submitForm('check-in')">Check-In</button>
-                <button type="button" class="btn btn-danger" onclick="submitForm('check-out')">Check-Out</button>
+                <button type="button" class="btn btn-success" onclick="submitForm('log-in')">Log-In</button>
+                <button type="button" class="btn btn-danger" onclick="submitForm('log-out')">Log-Out</button>
             </div>
         </form>
         <div id="message" class="mt-3"></div>

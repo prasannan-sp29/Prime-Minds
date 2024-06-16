@@ -10,9 +10,10 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url("{% static 'images/emp.jpeg' %}");
+            background-image: url("{% static 'images/at.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -90,7 +91,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Apply Leave</h2>
+        <h2>Edit Leave</h2>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             
