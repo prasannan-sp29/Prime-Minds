@@ -82,7 +82,7 @@
         <div class="text-center mb-4">
             <a class="btn btn-primary apply-link" href="{% url 'requestLeave' %}">Apply for Leave</a>
         </div>
-        <h2>Leave Status for <span style="color: rgb(235, 114, 28);">{{ data.name }}</span></h2>
+        <h2>Leave Status for <span style="color: rgb(235, 114, 28);">{{ data.name|title }}</span></h2>
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -91,7 +91,7 @@
                     <th>End Date</th>
                     <th>Days</th>
                     <th>Status</th>
-                    <th>Edit</th>
+                    <!-- <th>Edit</th> -->
                     <th>Delete</th>
                 </tr>
             </thead>
@@ -103,13 +103,13 @@
                     <td>{{leave.enddate}}</td>
                     <td>{{leave.days}}</td>
                     <td><span class="{% if leave.status == 'Approved' %} status-approved {% elif leave.status == 'Pending' %}status-pending{% elif leave.status == 'Rejected' %}status-rejected{% endif %}">{{ leave.status }}</span></td>
-                    <td>
+                    <!-- <td>
                         {% if leave.status == 'Pending' %}
                             <a href="{% url 'edit_leave' pk=leave.id %}">Edit</a>
                         {% else %}
                             <span class="text-muted">Edit</span>
                         {% endif %}
-                    </td>
+                    </td> -->
                     <td>
                         {% if leave.status == 'Pending' %}
                             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ leave.id }}">Delete</button>

@@ -6,6 +6,8 @@ from accounts.models import userdetials
 from django.http import HttpResponse
 from employee.models import Employee_data
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 # Create your views here.
 
@@ -19,28 +21,32 @@ def index(request):
         # print(username)
         # print(password)
         user = authenticate(username=username,password=password)
-        print(user)
-        print(request.user)
+        # print(user)
+        # print(request.user)
         if user:
             if user.is_active:
                 login(request,user)
                 try:
                     d = Employee_data.objects.get(user=user)
                 except Employee_data.DoesNotExist:
-                    return HttpResponse('Employee Query doesn"t exist')
+                    # return HttpResponse('Employee Query doesn"t exist')
+                    messages.error(request,'Employee Query doesn"t exist')
 
-                print(d.department)
+                # print(d.department)
                 
                 if (str(d.department)).lower() == 'admin':
-                    print('Login Success')
+                    # print('Login Success')
                 
                     return redirect('dashboard')
                 else:
                     return redirect('profile')
             else:
-                return HttpResponse('User is not Active')
+                # return HttpResponse('User is not Active')
+                messages.error(request,'User is Not Active')
+
         else:
-            return HttpResponse('Please Check Your Creds...!')
+            # return HttpResponse('Please Check Your Creds...!')
+            messages.error(request,'Please Check Your Creds...!')
     return render(request,'index.html',{'dname':dname})
 
 # def register_details(request):

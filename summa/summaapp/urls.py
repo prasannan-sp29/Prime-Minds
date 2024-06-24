@@ -1,7 +1,7 @@
-# urls.py
 from django.urls import path
-from .views import fetch_and_store_email_data
+from .views import *
 
 urlpatterns = [
-    path('fetch-emails/', fetch_and_store_email_data, name='fetch_emails'),
+    path('', my_form_view, name='my_form_view'),
+    path('food/',create_food_item,name='food')
 ]

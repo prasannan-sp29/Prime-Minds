@@ -67,7 +67,7 @@
 
 <body>
     <div class="container">
-        <h2>Pay List View</h2>
+        <h2>Payslip Details</h2>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -80,9 +80,9 @@
             <tbody>
                 {% for i in pay %}
                 <tr>
-                    <td>{{ i.employee }}</td>
+                    <td>{{ i.employee|title }}</td>
                     <td>{{ i.total_gross }}</td>
-                    <td>{{ i.month }}</td>
+                    <td>{{ i.month|title }}</td>
                     <td><a href="{% url 'generate_payslip_pdf' pk=i.id %}">View Details</a></td>
                 </tr>
                 {% endfor %}

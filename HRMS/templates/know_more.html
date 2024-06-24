@@ -81,9 +81,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="profile-details">
-                            <p><strong>NAME:</strong> {{ data.name|default:"N/A" }}</p>
+                            <p><strong>NAME:</strong> {{ data.name|title|default:"N/A" }}</p>
                             <p><strong>PHONE NUMBER:</strong> {{ data.phone_number|default:"N/A" }}</p>
-                            <p><strong>ALTERNATE PHONE NUMBER:</strong> {{ data.alternate_phone_number|default:"N/A" }}</p>
+                            <!-- <p><strong>ALTERNATE PHONE NUMBER:</strong> {{ data.alternate_phone_number|default:"N/A" }}</p> -->
                             <p><strong>MAIL ID:</strong> {{ data.mail_id|default:"N/A" }}</p>
                             <p><strong>GENDER:</strong> {{ data.gender|default:"N/A" }}</p>
                             <p><strong>DATE OF BIRTH:</strong> {{ data.DOB|default:"N/A" }}</p>
@@ -104,7 +104,7 @@
                     <div class="col-md-6">
                         <div class="profile-details">
                             <p><strong>DATE OF JOIN:</strong> {{ data.date_of_join|default:"N/A" }}</p>
-                            <p><strong>DEPARTMENT:</strong> {{ data.department|default:"N/A" }}</p>
+                            <p><strong>DEPARTMENT:</strong> {{ data.department|title|default:"N/A" }}</p>
                             <p><strong>BANK NAME:</strong> {{ data.bank_name|default:"N/A" }}</p>
                             <p><strong>BANK ACCOUNT NUMBER:</strong> {{ data.bank_acc_number|default:"N/A" }}</p>
                             <p><strong>BANK IFSC CODE:</strong> {{ data.ifsc_code|default:"N/A" }}</p>
@@ -115,10 +115,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="profile-details">
-                            <p><strong>PERMANENT ADDRESS:</strong> {{ data.permenant_address|default:"N/A" }}</p>
-                            <p><strong>CURRENT ADDRESS:</strong> {{ data.current_address|default:"N/A" }}</p>
-                            <p><strong>EMERGENCY CONTACT NAME:</strong> {{ data.emergency_contact_name|default:"N/A" }}</p>
-                            <p><strong>EMERGENCY CONTACT RELATIONSHIP:</strong> {{ data.emergency_contact_relationship|default:"N/A" }}</p>
+                            <p><strong>PERMANENT ADDRESS:</strong> {{ data.permenant_address|title|default:"N/A" }}</p>
+                            <p><strong>CURRENT ADDRESS:</strong> {{ data.current_address|title|default:"N/A" }}</p>
+                            <p><strong>EMERGENCY CONTACT NAME:</strong> {{ data.emergency_contact_name|title|default:"N/A" }}</p>
+                            <p><strong>EMERGENCY CONTACT RELATIONSHIP:</strong> {{ data.emergency_contact_relationship|title|default:"N/A" }}</p>
                             <p><strong>EMERGENCY CONTACT NUMBER:</strong> {{ data.emergency_contact_number|default:"N/A" }}</p>
                         </div>
                     </div>

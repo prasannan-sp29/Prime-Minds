@@ -1,0 +1,15 @@
+<!-- create_food_item.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Food Item</title>
+</head>
+<body>
+    <h1>Create Food Item</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

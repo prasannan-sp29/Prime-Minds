@@ -117,6 +117,11 @@
     <div class="container">
         <form method="POST">
             {% csrf_token %}
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    {% include 'alert.html' %}
+                </div>
+            </div>
             <div class="form-group">
                 <label for="username"><b>Username</b></label>
                 <input type="text" class="form-control" placeholder="Enter Username" name="username" id="username" required>
@@ -125,6 +130,7 @@
                 <label for="password"><b>Password</b></label>
                 <input type="password" class="form-control" placeholder="Enter Password" name="password" id="password" required>
             </div>
+            <a href="{% url 'user_valid' %}">Forget Password</a>
             <button type="submit" class="btn">Login</button>
         </form>
     </div>

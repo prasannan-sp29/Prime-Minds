@@ -177,7 +177,7 @@
                 </tr>
                 <tr>
                     <th colspan="4">
-                        <h4>{{slip.employee.name}}</h4>
+                        <h4>{{slip.employee.name|title}}</h4>
                         <h5>{{slip.employee.mail_id}}</h5>
                     </th>
                 </tr>
@@ -189,7 +189,7 @@
                 </tr>
                 <tr>
                     <td>Designation</td>
-                    <td>{{slip.employee.department}}</td>
+                    <td>{{slip.employee.department|title}}</td>
                     <td>PAN</td>
                     <td>{{slip.employee.pan_number}}</td>
                 </tr>
@@ -275,13 +275,18 @@
                     <td>{{slip.income_tax}}</td>
                 </tr>
                 <tr>
+                    <td>LD</td>
+                    <td colspan="2">Leave Deducion</td>
+                    <td>{{slip.leave_deduction}}</td>
+                </tr>
+                <tr>
                     <td>GS</td>
-                    <td colspan="2">Gross Salary</td>
+                    <td colspan="2">Gross Salary (Basic + HRA + DA + TA)</td>
                     <td>{{slip.gross}}</td>
                 </tr>
                 <tr>
                     <td>TGS</td>
-                    <td colspan="2">Total Gross Salary</td>
+                    <td colspan="2">Total Gross Salary [GS -(PF + IT + PT)] </td>
                     <td>{{slip.total_gross}}</td>
                 </tr>
             </tbody>

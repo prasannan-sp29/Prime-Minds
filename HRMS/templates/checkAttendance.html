@@ -91,7 +91,7 @@
             <tbody>
                 {% for i in attend %}
                 <tr>
-                    <td>{{ i.user }}</td>
+                    <td>{{ i.user|title }}</td>
                     <td>{{ i.date }}</td>
                     <td>{{ i.check_in_time }}</td>
                     <td>{{ i.check_out_time }}</td>

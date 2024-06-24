@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .treeview ul {
+            list-style-type: none;
+        }
+
+        .treeview li {
+            margin: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .treeview li:before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #ccc;
+        }
+
+        .treeview li:after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 15px;
+            width: 10px;
+            height: 1px;
+            background: #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="{% url 'add_dealer' %}" class="btn">Add Dealer</a>
+        <div class="treeview">
+            <ul>
+                {% for dealer in deal %}
+                    <a href="">{{dealer.dealer_name}}</a> <br>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

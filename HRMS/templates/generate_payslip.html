@@ -126,7 +126,7 @@
                             <select name="employee_id" id="employee_id" class="form-select">
                                 <option value="">All Employees</option>
                                 {% for employee in employees %}
-                                    <option value="{{ employee.id }}">{{ employee.name }}</option>
+                                    <option value="{{ employee.id }}">{{ employee.name|title }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -157,10 +157,10 @@
                         <tbody>
                             {% for i in pay %}
                             <tr>
-                                <td>{{ i.employee }}</td>
+                                <td>{{ i.employee|title }}</td>
                                 <td>{{ i.employee.mail_id }}</td>
                                 <td>{{ i.month|upper }}</td>
-                                <td>{{ i.employee.department }}</td>
+                                <td>{{ i.employee.department|title }}</td>
                                 <td>
                                     <button type="button" class="btn btn-outline-primary">
                                         <a href="{% url 'generate_payslip_pdf' pk=i.id %}">View Details</a>

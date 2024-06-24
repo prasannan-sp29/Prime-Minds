@@ -10,9 +10,10 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-image: url("{% static 'images/emp.jpeg' %}");
+            background-image: url("{% static 'images/add_emp.jpg' %}");
             background-repeat: no-repeat;
             background-size: cover;
+            background-attachment: fixed;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -142,10 +143,10 @@
                 <label for="phone_number">Phone Number</label>
                 {{ form.phone_number }}
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="alternate_phone_number">Alternate Phone Number</label>
                 {{ form.alternate_phone_number }}
-            </div>
+            </div> -->
             <div class="form-group">
                 <label for="emergency_contact_name">Emergency Contact Name</label>
                 {{ form.emergency_contact_name }}

@@ -70,7 +70,7 @@
 
 <body>
     <div class="container">
-        <h1>Welcome, {{ data.name }}</h1>
+        <h1>Welcome, {{ data.name|title }}</h1>
         <div class="btn-group">
             <a class="btn btn-primary" href="{% url 'know_mores' pk=data.id %}">
                 <i class="fas fa-user"></i> Profile
@@ -79,7 +79,7 @@
                 <i class="fas fa-calendar-check"></i> View Attendance
             </a>
             <a class="btn btn-success" href="{% url 'paylistView' pk=data.id %}">
-                <i class="fas fa-file-invoice-dollar"></i> View Paylist
+                <i class="fas fa-file-invoice-dollar"></i> View Payslip
             </a>
             <a class="btn btn-warning" href="{% url 'applyLeave' pk=data.id %}">
                 <i class="fas fa-plane-departure"></i> Apply Leave

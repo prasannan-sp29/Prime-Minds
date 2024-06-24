@@ -1,0 +1,97 @@
+<!-- add_purchase.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Purchase</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
+<body hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+    <form action="" hx-post="{% url 'create-purchase' %}"
+        hx-on="htmx:afterRequest: this.remove()"
+        hx-trigger="click from:#submit-all">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-6 col-md-4">
+                <label for="{{ form.tablet_name.id_for_label }}" class="form-label">{{ form.tablet_name.label }}</label>
+                {{ form.tablet_name }}
+            </div>
+            <div class="col-6 col-md-4">
+                <label for="{{ form.price.id_for_label }}" class="form-label">{{ form.price.label }}</label>
+                {{ form.price }}
+            </div>
+            <div class="col-6 col-md-4">
+                <label for="{{ form.quantity.id_for_label }}" class="form-label">{{ form.quantity.label }}</label>
+                {{ form.quantity }}
+            </div>
+        </div>
+        <input type="hidden" name="new_tablet_name" id="new-tablet-name">
+        <!-- <button type="submit" id="submit-all">Submit</button> -->
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('select[name="tablet_name"]').select2({
+                placeholder: 'Search or enter new tablet name',
+                tags: true,
+                allowClear: true,
+                createTag: function (params) {
+                    var term = $.trim(params.term);
+
+                    if (term === '') {
+                        return null;
+                    }
+
+                    return {
+                        id: term,
+                        text: term,
+                        newOption: true
+                    };
+                },
+                templateResult: function (data) {
+                    var $result = $('<span></span>');
+
+                    $result.text(data.text);
+
+                    if (data.newOption) {
+                        $result.append('<em> (new)</em>');
+                    }
+
+                    return $result;
+                }
+            });
+
+            $('#purchase-form').on('submit', function(event) {
+                event.preventDefault();
+
+                var newTabletName = $('select[name="tablet_name"]').find(':selected').text();
+                if ($('select[name="tablet_name"]').find(':selected').data('select2-tag') === true) {
+                    $('#new-tablet-name').val(newTabletName);
+                } else {
+                    $('#new-tablet-name').val('');
+                }
+
+                $.ajax({
+                    url: '{% url "create-purchase" %}',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Handle success
+                        console.log('Form submitted successfully');
+                    },
+                    error: function(response) {
+                        // Handle error
+                        console.log('Form submission failed');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

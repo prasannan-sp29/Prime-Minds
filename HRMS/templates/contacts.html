@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,10 +61,12 @@
             max-width: 1000px;
             margin: 80px auto 40px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255);
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            opacity: 0.8;
+            border: 2px solid #333;
+            /* opacity: 0.9; */
+            /* Add a border for better visibility */
         }
 
         h1 {
@@ -79,7 +82,8 @@
             margin-top: 20px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
@@ -103,19 +107,24 @@
             .navbar .navbar-right {
                 flex-direction: column;
             }
+
             .navbar .nav-button {
                 margin-bottom: 10px;
             }
+
             .container {
                 margin: 100px auto 20px;
                 padding: 10px;
             }
-            th, td {
+
+            th,
+            td {
                 padding: 10px;
             }
         }
     </style>
 </head>
+
 <body>
 
     <nav class="navbar">
@@ -123,7 +132,7 @@
             <a href="{% url 'dashboard' %}" class="brand">Prime Minds Consulting Pvt Ltd.</a>
         </div>
         <div class="navbar-right">
-           
+
             <a href="{% url 'employee_details' %}" class="nav-button">Employee</a>
             <a href="{% url 'addDepartment' %}" class="nav-button">Department</a>
             <a href="{% url 'allAttendanceView' %}" class="nav-button">Attendance</a>
@@ -145,22 +154,23 @@
                     <th>Email Id</th>
                     <th>Department</th>
                     <th>Permenant Address</th>
-                  
+
                 </tr>
             </thead>
             <tbody>
                 {% for i in contacts %}
                 <tr>
-                    <td>{{ i.name }}</td>
+                    <td>{{ i.name|title }}</td>
                     <td>{{ i.phone_number }}</td>
                     <td>{{ i.mail_id }}</td>
-                    <td>{{ i.department }}</td>
-                    <td>{{ i.permenant_address }}</td>
-                    
+                    <td>{{ i.department|title }}</td>
+                    <td>{{ i.permenant_address|title }}</td>
+
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </body>
+
 </html>

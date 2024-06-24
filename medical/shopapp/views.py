@@ -371,8 +371,6 @@ def add_purchase(request):
             purchase_item = form.save(commit=False)
             purchase_id = request.session.get('purchase_id')
             print(purchase_id)
-            tab = form.cleaned_data['tablet_name']
-            print(tab)
             if purchase_id:
                 
                 purchase = Purchase.objects.get(pk=purchase_id)
@@ -686,7 +684,11 @@ def fetch_and_store_email_data(request):
             email_body = msg.get_payload(decode=True).decode()
 
         # Extract details from the email body
-        details = extract_email_details(email_body)
+        try:
+            details = extract_email_details(email_body)
+        except ValueError as e:
+            print(f"Error processing email {email_id}: {e}")
+            continue
 
         # Store the details in the Lead model
         Lead.objects.create(

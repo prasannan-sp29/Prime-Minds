@@ -61,11 +61,11 @@
 
 <body>
     <div class="container">
-        <h1>Welcome, {{ data.name }}</h1>
+        <h1>Welcome, {{ data.name|title }}</h1>
         <div class="btn-group">
             <a class="btn btn-primary" href="{% url 'know_mores' pk=data.id %}"><i class="bi bi-person"></i>Profile</a>
             <a class="btn btn-secondary" href="{% url 'viewAttendance' pk=data.id %}"><i class="bi bi-calendar-check"></i>View Attendance</a>
-            <a class="btn btn-success" href="{% url 'paylistView' pk=data.id %}"><i class="bi bi-currency-dollar"></i>View Paylist</a>
+            <a class="btn btn-success" href="{% url 'paylistView' pk=data.id %}"><i class="bi bi-currency-dollar"></i>View Payslip</a>
             <a class="btn btn-warning" href="{% url 'applyLeave' pk=data.id %}"><i class="bi bi-pencil-square"></i>Apply Leave</a>
             <a class="btn btn-danger" href="{% url 'employee_logout' %}"><i class="bi bi-box-arrow-right"></i>Logout</a>
         </div>

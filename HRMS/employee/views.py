@@ -14,6 +14,7 @@ import calendar
 from datetime import datetime, timedelta
 from datetime import datetime
 import numpy as np
+from .utils import *
 
 # To Find Durations Between Two Dates
 def get_leave_duration(start, end):
@@ -93,14 +94,19 @@ def generate_payslip(request):
         
         if form.is_valid():
             MONTH = form.cleaned_data["month"]
+            # print('payslip for the month is --> ',MONTH)
+            date_obj = datetime.strptime(str(MONTH), '%Y-%m-%d')
+            # print(date_obj.month)
+            mon = date_obj.month
+            yr = date_obj.year
 
             if employee_id:
                 employee = Employee_data.objects.get(id=employee_id)
-                generate_single_payslip(employee, MONTH)
+                generate_single_payslip(employee, MONTH,mon,yr)
                 messages.success(request, f"Payroll Generated Successfully for {employee.name}.")
             else:
                 for i in employees:
-                    generate_single_payslip(i, MONTH)
+                    generate_single_payslip(i, MONTH,mon,yr)
                 messages.success(request, "Payroll Generated Successfully for all Employees.")
             
             return redirect('generate_payslip')
@@ -108,7 +114,7 @@ def generate_payslip(request):
         form = PayrollForm()
     return render(request, "generate_payslip.html", {"form": form, "pay": pay, "employees": employees})
 
-def generate_single_payslip(employee, month):
+def generate_single_payslip(employee, month,mon,yr):
     ctc = employee.salary
     basic = (ctc * 0.40) / 12
     HRA = (basic * 0.50) / 12
@@ -120,7 +126,43 @@ def generate_single_payslip(employee, month):
     IT = 0
     if Gross_salary > 200000:
         IT = Gross_salary * 0.10
-    Total_gross = Gross_salary - (PF + IT + PT)
+    Total_gross1 = Gross_salary - (PF + IT + PT)
+
+    # ------------------------- #
+    last_day = calendar.monthrange(yr, mon)[1]
+    end_of_month = datetime(yr, mon, last_day).date()
+    start_date = datetime.combine(month, datetime.min.time())
+    end_date = datetime.combine(end_of_month, datetime.min.time())
+    total_days = ((end_date - start_date).days) + 1
+    # print(total_days)
+    days = np.busday_count(start_date.date(), end_date.date())
+
+    total_working_days = days + 1
+    # print(total_working_days)
+    
+    leave_days = total_days - total_working_days
+    # print(leave_days)
+    leaves_taken = 0
+    start_ = timezone.datetime(yr, mon, 1)
+    end_ = timezone.datetime(yr, mon + 1, 1) - timezone.timedelta(days=1)
+    leaves = Leave.objects.filter(user_id = employee.id, status = 'Approved', startdate__lte=end_, enddate__gte=start_)
+    # print(leaves)
+
+    for i in leaves:
+        leaves_taken += i.days
+    
+    present_days = total_working_days - leaves_taken
+    
+    # print('Leaves Taken --> ',leaves_taken)
+    ###########################
+
+    # per day salary
+    per_day_salary = Total_gross1 / total_working_days
+    # print('per day income --> ',per_day_salary)
+
+    leave_deduction = per_day_salary * leaves_taken
+
+    Total_gross = Total_gross1 - leave_deduction
 
     Payroll.objects.create(
         employee=employee,
@@ -131,6 +173,7 @@ def generate_single_payslip(employee, month):
         ta=TA,
         pf=PF,
         income_tax=IT,
+        leave_deduction = leave_deduction,
         professional_tax=PT,
         gross=Gross_salary,
         total_gross=Total_gross,
@@ -140,14 +183,14 @@ def generate_single_payslip(employee, month):
 def generate_payslip_pdf(request, pk):
     slip = get_object_or_404(Payroll, id=pk)
     end_of_month = slip.get_end_of_month()
-    getMonth = slip.get_month()
+    # getMonth = slip.get_month()
     start = slip.month
-    print(getMonth)
+    # print(getMonth)
     # Convert to datetime objects
     start_date = datetime.combine(start, datetime.min.time())
     end_date = datetime.combine(end_of_month, datetime.min.time())
     total_days = ((end_date - start_date).days) + 1
-    print(total_days)
+    # print(total_days)
     # print(total_days)
     # Calculate the number of business days
     days = np.busday_count(start_date.date(), end_date.date())
@@ -155,16 +198,17 @@ def generate_payslip_pdf(request, pk):
     total_working_days = days + 1
     
     leave_days = total_days - total_working_days
-    print(total_working_days)
+    # print(total_working_days)
 
-    leaves_taken = 0
+    
     # ----------------------------- #
+    leaves_taken = 0
     year = slip.get_year()
-    month = getMonth
+    month = slip.get_month()
     start_ = timezone.datetime(year, month, 1)
     end_ = timezone.datetime(year, month + 1, 1) - timezone.timedelta(days=1)
     leaves = Leave.objects.filter(user_id = slip.employee_id, status = 'Approved', startdate__lte=end_, enddate__gte=start_)
-    print(leaves)
+    # print(leaves)
 
     for i in leaves:
         leaves_taken += i.days
@@ -196,8 +240,11 @@ def attendacne_view(request):
             return JsonResponse({"message": "Log-in successful."}, safe=False)
 
         elif action == "log-out" and attendance.check_out_time is None:
-            attendance.check_out_time = timezone.now().astimezone(ist).time()
-            attendance.save()
+            if attendance.check_in_time != None:
+                attendance.check_out_time = timezone.now().astimezone(ist).time()
+                attendance.save()
+            else:
+                return JsonResponse({'message':"You have not Loged In yet, First Login then Logout"})
             return JsonResponse({"message": "Log-out successful."}, safe=False)
 
         return JsonResponse({"message": "Action already recorded or invalid."}, safe=False)
@@ -216,7 +263,7 @@ def deleteEmployee(request, pk):
 
 @login_required(login_url='index')
 def checkAttendance(request, pk):
-    attend = Attendance.objects.filter(user_id=pk)
+    attend = Attendance.objects.filter(user_id=pk).order_by('-id')
     date = request.GET.get("date")
 
     if date:
@@ -278,7 +325,7 @@ def delete_leave(request,pk):
 
 @login_required(login_url='index')
 def all_attendance_view(request):
-    attend = Attendance.objects.all()
+    attend = Attendance.objects.all().order_by('-id')
     date = request.GET.get("date")
     if date:
         date = parse_date(date)
@@ -340,3 +387,49 @@ def delete_payslip(request,pk):
     res.delete()
     return redirect('generate_payslip')
     
+import uuid
+def user_valid(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        # print(username)
+
+        try:
+            user = User.objects.get(username=username)
+            # print(user.email)
+        except Exception as e:
+            # print(e)
+            messages.success(request, "User Name is Not Available.")
+        else:
+            profile_obj = userdetials.objects.get(user=user)
+            token = str(uuid.uuid4())
+            profile_obj.password_token = token
+            profile_obj.save()
+            send_forget_password_mail(user.email,token)
+            messages.success(request,"An Mail Sent Successfully, Check Your Mail")
+            return redirect('user_valid')
+
+    return render(request,'user_valid.html')
+
+def change_password(request,token):
+    try:
+        profile_obj = userdetials.objects.get(password_token = token)
+    except Exception as e:
+        return HttpResponse('The Link Has Been Expired')
+    # print(profile_obj.user)
+
+    emp = Employee_data.objects.get(user=profile_obj.user)
+
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password')
+        reconfirm_password = request.POST.get('reconfirm_password')
+
+        if new_password != reconfirm_password:
+            messages.error(request,'Password Doesn\'t Match, Make sure both is Same')
+            return redirect(f'change_password/{token}')
+
+        user_obj = User.objects.get(username = profile_obj.user)
+        user_obj.set_password(new_password)
+        user_obj.save()
+        return redirect('index')
+
+    return render(request,'change_password.html',{'emp':emp})

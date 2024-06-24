@@ -24,7 +24,7 @@ class Employee_data(models.Model):
     permenant_address = models.CharField(max_length=100)
     current_address = models.CharField(max_length=100)
     phone_number = models.BigIntegerField()
-    alternate_phone_number = models.BigIntegerField(blank=True)
+    # alternate_phone_number = models.BigIntegerField(blank=True)
     emergency_contact_name = models.CharField(max_length=50)
     emergency_contact_relationship = models.CharField(max_length=50)
     emergency_contact_number = models.BigIntegerField()
@@ -52,6 +52,7 @@ class Payroll(models.Model):
     pf = models.DecimalField(max_digits=10, decimal_places=2)
     income_tax = models.DecimalField(max_digits=10, decimal_places=2)
     professional_tax = models.DecimalField(max_digits=10, decimal_places=2)
+    leave_deduction = models.DecimalField(max_digits=10, decimal_places=2)
     gross = models.DecimalField(max_digits=10, decimal_places=2)
     total_gross = models.DecimalField(max_digits=10, decimal_places=2)
 

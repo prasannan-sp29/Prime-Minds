@@ -137,12 +137,12 @@
             <div class="col-md-4">
                 <div class="card mb-4">
                     <div class="card-header bg-dark text-white">
-                        {{ i.name }}
+                        {{ i.name|title }}
                     </div>
                     <div class="card-body">
                         <p><strong>Date of Birth:</strong> {{ i.DOB }}</p>
                         <p><strong>Phone Number:</strong> {{ i.phone_number }}</p>
-                        <p><strong>Department:</strong> {{ i.department }}</p>
+                        <p><strong>Department:</strong> {{ i.department|title }}</p>
                         <img src="{% if i.profile_picture %}{{ i.profile_picture.url }}{% else %}{% static 'images/profile.jpeg' %}{% endif %}"
                             alt="Profile Picture" class="img-fluid" height="70px" width="70px">
                     </div>

@@ -161,7 +161,9 @@
         <form action="" method="POST">
             {% csrf_token %}
             <div class="form-group">
-                {{ form.as_p }}
+                <!-- {{ form.as_p }} -->
+                  <label for="d_name">Department  :    </label>
+                  {{form.d_name}}
             </div>
             <input type="submit" value="ADD DEPARTMENT" class="btn btn-primary">
         </form>
@@ -177,7 +179,7 @@
             <tbody>
                 {% for i in d %}
                 <tr>
-                    <td>{{ i.d_name }}</td>
+                    <td>{{ i.d_name|title }}</td>
                     <td><button type="button" class="btn btn-outline-primary"><a href="{% url 'department_view' pk=i.id %}">VIEW</a></button></td>
                     <td><button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ i.id }}">DELETE</button></td>
                 </tr>

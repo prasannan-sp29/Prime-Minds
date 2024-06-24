@@ -7,16 +7,21 @@ import re
 class add_employee_form(forms.ModelForm):
     class Meta:
         model = Employee_data
-        fields = ['profile_picture', 'name','emp_code', 'DOB','gender', 'date_of_join', 'permenant_address','current_address', 'phone_number','alternate_phone_number','aadhar_no', 'mail_id', 'pan_number', 'department', 'salary',
+        fields = ['profile_picture', 'name','emp_code', 'DOB','gender', 'date_of_join', 'permenant_address','current_address', 'phone_number','aadhar_no', 'mail_id', 'pan_number', 'department', 'salary',
         'bank_name','bank_acc_number','emergency_contact_number','emergency_contact_name','emergency_contact_relationship','ifsc_code']
         widgets = {
             'DOB': forms.DateInput(attrs={'type': 'date'}),
             'date_of_join': forms.DateInput(attrs={'type': 'date'}),
         }
-        
+
+    def clean_pan_number(self):
+        pan_number = str(self.cleaned_data.get('pan_number')).upper()
+        if not re.fullmatch(r'[A-Z]{5}[0-9]{4}[A-Z]{1}', pan_number):
+            raise ValidationError('PAN number must be exactly 10 characters: 5 letters, 4 digits, and 1 letter. At Upper Case')
+        return pan_number
         
     def clean_aadhar_no(self):
-        aadhar_no = str(self.changed_data.get('aadhar_no'))
+        aadhar_no = str(self.cleaned_data.get('aadhar_no'))
         if not re.fullmatch(r'\d{12}',aadhar_no):
             raise ValidationError('Aadhar number must be Exactly 12 digits.')
         return aadhar_no
@@ -27,11 +32,11 @@ class add_employee_form(forms.ModelForm):
             raise ValidationError("Phone number must be exactly 10 digits.")
         return phone_number
 
-    def clean_alternate_phone_number(self):
-        alternate_phone_number = str(self.cleaned_data.get('alternate_phone_number'))
-        if alternate_phone_number and not re.fullmatch(r'\d{10}', alternate_phone_number):
-            raise ValidationError("Alternate phone number must be exactly 10 digits.")
-        return alternate_phone_number
+    # def clean_alternate_phone_number(self):
+    #     alternate_phone_number = str(self.cleaned_data.get('alternate_phone_number'))
+    #     if alternate_phone_number and not re.fullmatch(r'\d{10}', alternate_phone_number):
+    #         raise ValidationError("Alternate phone number must be exactly 10 digits.")
+    #     return alternate_phone_number
 
     def clean_emergency_contact_number(self):
         emergency_contact_number = str(self.cleaned_data.get('emergency_contact_number'))

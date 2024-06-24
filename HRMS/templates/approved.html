@@ -23,7 +23,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
             margin-top: 100px;
-            opacity: 0.8;
+            /* opacity: 0.8; */
         }
 
         h2 {
@@ -147,7 +147,7 @@
                 {% for i in res %}
                 {% if i.status == 'Approved' %}
                 <tr>
-                    <td>{{ i.user }}</td>
+                    <td>{{ i.user|title }}</td>
                     <td>{{ i.leavetype }}</td>
                     <td>{{ i.startdate|date:"Y-m-d" }} - {{ i.enddate|date:"Y-m-d" }}</td>
                     <td><span class="status {{ i.status|lower }}">{{ i.status }}</span></td>

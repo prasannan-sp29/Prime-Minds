@@ -81,7 +81,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="profile-details">
-                            <p><strong>NAME:</strong> {{ data.name }}</p>
+                            <p><strong>NAME:</strong> {{ data.name|title }}</p>
                             <p><strong>PHONE NUMBER:</strong> {{ data.phone_number }}</p>
                             <p><strong>ALTERNATE PHONE NUMBER:</strong> {{ data.alternate_phone_number }}</p>
                             <p><strong>MAIL ID:</strong> {{ data.mail_id }}</p>
@@ -104,7 +104,7 @@
                     <div class="col-md-6">
                         <div class="profile-details">
                             <p><strong>DATE OF JOIN:</strong> {{ data.date_of_join }}</p>
-                            <p><strong>DEPARTMENT:</strong> {{ data.department }}</p>
+                            <p><strong>DEPARTMENT:</strong> {{ data.department|title }}</p>
                             <p><strong>BANK NAME:</strong> {{ data.bank_acc_number }}</p>
                             <p><strong>BANK ACCOUNT NUMBER:</strong> {{ data.bank_acc_number }}</p>
                             <p><strong>BANK IFSC CODE:</strong> {{ data.ifsc_code }}</p>
@@ -114,11 +114,10 @@
                     <div class="col-md-6">
                         <div class="profile-details">
                             <p><strong>PAN NUMBER:</strong> {{ data.pan_number }}</p>
-                            <p><strong>PERMENANT ADDRESS:</strong> {{ data.permenant_address }}</p>
-                            <p><strong>CURRENT ADDRESS:</strong> {{ data.current_address }}</p>
-                            <p><strong>EMERGENCY CONTACT NAME:</strong> {{ data.emergency_contact_name }}</p>
-                            <p><strong>EMERGENCY CONTACT RELATIONSHIP:</strong> {{ data.emergency_contact_relationship
-                                }}</p>
+                            <p><strong>PERMENANT ADDRESS:</strong> {{ data.permenant_address|title }}</p>
+                            <p><strong>CURRENT ADDRESS:</strong> {{ data.current_address|title }}</p>
+                            <p><strong>EMERGENCY CONTACT NAME:</strong> {{ data.emergency_contact_name|title }}</p>
+                            <p><strong>EMERGENCY CONTACT RELATIONSHIP:</strong> {{ data.emergency_contact_relationship|title }}</p>
                             <p><strong>EMERGENCY CONTACT NUMBER:</strong> {{ data.emergency_contact_number }}</p>
                         </div>
                     </div>
