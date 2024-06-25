@@ -5,7 +5,7 @@ from employee.models import Employee_data
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-@login_required(login_url='index')
+# @login_required(login_url='index')
 def add_department(request):
     d = dept.objects.all()
     if request.method == 'POST':

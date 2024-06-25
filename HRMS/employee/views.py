@@ -42,7 +42,7 @@ def know_mores(request, pk):
 def remove_space(inp_str):
     return inp_str.replace(" ", "").lower()
 
-@login_required(login_url='index')
+# @login_required(login_url='index')
 def add_employee(request):
     if request.method == "POST":
         form = add_employee_form(request.POST, request.FILES)
@@ -405,7 +405,7 @@ def forget_password(request):
             profile_obj.password_token = token
             profile_obj.save()
             send_forget_password_mail(user.email,token)
-            messages.success(request,"An Mail Sent Successfully, Check Your Mail")
+            messages.success(request,f"An Mail Sent Successfully to {profile_obj.user.email} Check Your Mail")
             return redirect('forget_password')
 
     return render(request,'forget_password.html')
