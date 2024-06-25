@@ -30,6 +30,6 @@ urlpatterns = [
     path('pay/',views.pay,name='pay'),
     path('edit_leave/<int:pk>/',views.edit_leave,name='edit_leave'),
     path('delete_leave/<int:pk>/',views.delete_leave,name='delete_leave'),
-    path('user_valid/',views.user_valid,name='user_valid'),
+    path('forget_password/',views.forget_password,name='forget_password'),
     path('change_password/<token>/',views.change_password,name='change_password'),
 ]

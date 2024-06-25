@@ -102,7 +102,6 @@ STATUS = (
     ('Rejected','Rejected'),
 )
 
-DAYS = 30
 
 class Leave(models.Model):
     user = models.ForeignKey(Employee_data, on_delete=models.CASCADE, blank=True)

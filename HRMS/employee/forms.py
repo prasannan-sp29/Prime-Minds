@@ -54,9 +54,9 @@ class PayrollForm(forms.ModelForm):
     class Meta:
         model = Payroll
         fields = ['month']
-        # widgets = {
-        #     'month': forms.DateInput(attrs={'type': 'month'}),
-        # }
+        widgets = {
+            'month': forms.DateInput(attrs={'type': 'month'}),
+        }
 
 class LeaveForm(forms.ModelForm):
     reason = forms.CharField(required=False, widget=forms.Textarea(attrs={'rows': 4, 'cols': 40}))

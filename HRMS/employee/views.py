@@ -388,7 +388,7 @@ def delete_payslip(request,pk):
     return redirect('generate_payslip')
     
 import uuid
-def user_valid(request):
+def forget_password(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         # print(username)
@@ -406,9 +406,9 @@ def user_valid(request):
             profile_obj.save()
             send_forget_password_mail(user.email,token)
             messages.success(request,"An Mail Sent Successfully, Check Your Mail")
-            return redirect('user_valid')
+            return redirect('forget_password')
 
-    return render(request,'user_valid.html')
+    return render(request,'forget_password.html')
 
 def change_password(request,token):
     try:
